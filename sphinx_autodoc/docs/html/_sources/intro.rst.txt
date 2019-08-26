@@ -41,7 +41,7 @@ where :math:`z` = :math:`Dx`. The dual of lagrangian is a convex quadratic progr
 .. math::
    g(\nu) = (1/2)\nu^T DD^T \nu - y^T D^T \nu
 
-subjected to
+subject to
 
 .. math::
    -\lambda \leq \nu \leq  \lambda
@@ -54,7 +54,7 @@ The solution :math:`\nu^{lt}` of the dual, :math:`l_1` trend estimate can be est
 Implementation
 ***************
 CVXOPT ( Python Software For Convex Optimization ) is used directly for solving quadratic programming.
-:class:`cvxopt.solvers.qp` is for solving the dual formulation. It solves
+CVXOPT quadratic programming solver is used for solving the dual formulation. It solves
 quadratic program of form
 
 .. math::
@@ -96,8 +96,8 @@ and
 
 
 
-The user is requested to go through CVXOPT documentation `CVXOPT documentation <https://cvxopt.org/userguide/index.html>`_
-for better understanding.
+The user is requested to go through `CVXOPT documentation <https://cvxopt.org/userguide/index.html>`_
+and `Quadratic programming  <https://cvxopt.org/userguide/coneprog.html>`_ for better understanding.
 
 
 

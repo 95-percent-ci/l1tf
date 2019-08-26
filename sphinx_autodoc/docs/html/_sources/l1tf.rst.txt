@@ -11,7 +11,6 @@ Submodules
 
 .. toctree::
 
-   l1tf.get_tridiagonal_matrix
    l1tf.help_msg
    l1tf.helpers
    l1tf.l1

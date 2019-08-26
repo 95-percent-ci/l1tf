@@ -87,19 +87,22 @@
                         </ul>
                     </li>
                 </ul>
-                <p class="caption"><span class="caption-text">L1 Trend Filtering</span></p>
+                <p class="caption"><span class="caption-text">Algorithm code</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.l1.html">1. L1 Trend Filtering</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.get_tridiagonal_matrix.html">2.
-                        Tridiagonal matrix</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Helper Functions</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
                         Extraction</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Initialisation</a>
-                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Commandline
+                        Initialization</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Message keys</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.help_msg.html">1. HELP MESSAGE
+                        KEYS</a></li>
                 </ul>
 
 
@@ -168,7 +171,7 @@
                                 <p>Usage of this package is relatively simple using the quick use initialization scripts
                                     which are provided as part of the
                                     package.</p>
-                                <p>A sample python script has been provided in the repository titled <strong>L1_sample_main.py</strong>
+                                <p>A sample python script has been provided in the repository titled <strong>l1_sample_main.py</strong>
                                     along with sample data in
                                     directory <strong>sample_data</strong>.</p>
                                 <p>We shall delve into this file in detail in this section to understand how to use the
@@ -184,31 +187,20 @@
 
 <span class="c1"># importing packages #</span>
 
+<span class="kn">import</span> <span class="nn">sys</span> <span class="kn">as</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span
                                                 class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span> <span class="kn">as</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-
 
 <span class="kn">import</span> <span class="nn">l1tf.helpers</span> <span class="kn">as</span> <span
                                                 class="nn">helper</span>
 <span class="kn">import</span> <span class="nn">l1tf.l1</span> <span class="kn">as</span> <span class="nn">l1</span>
-<span class="kn">import</span> <span class="nn">l1tf.trend_segment</span> <span class="kn">as</span> <span
-                                                class="nn">ts</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;nitesh@gyandata.com&quot;</span>
 
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span
                                                 class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span
                                                 class="p">)</span>
-<span class="n">LOGGER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span
-                                                class="n">logging</span><span class="o">.</span><span
-                                                class="n">DEBUG</span><span class="p">)</span>
-<span class="n">stream_handler</span> <span class="o">=</span> <span class="n">logging</span><span
-                                                class="o">.</span><span class="n">StreamHandler</span><span
-                                                class="p">()</span>
-<span class="n">LOGGER</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span
-                                                class="n">stream_handler</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span
                                                 class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -231,9 +223,6 @@
     <span class="k">if</span> <span class="n">log_config_file</span><span class="p">:</span>
         <span class="n">helper</span><span class="o">.</span><span class="n">config_logger</span><span
                                                 class="p">(</span><span class="n">log_config_file</span><span class="p">)</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
-                                                class="s2">&quot;Logging configuration changed successfully!&quot;</span><span
-                                                class="p">)</span>
 
     <span class="k">for</span> <span class="n">signal_name</span><span class="p">,</span> <span
                                                 class="n">signal_df</span><span class="p">,</span> <span class="n">run_config</span> <span
@@ -241,19 +230,11 @@
                                                 class="o">.</span><span class="n">load_data</span><span
                                                 class="p">(</span><span class="n">data_dir_fp</span><span
                                                 class="p">,</span> <span class="n">config_dir_fp</span><span class="p">):</span>
-
         <span class="c1"># converting signal into np.ndarray #</span>
         <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span
                                                 class="n">ravel</span><span class="p">(</span><span
                                                 class="n">signal_df</span><span class="o">.</span><span
                                                 class="n">values</span><span class="p">)</span>
-
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
-                                                class="s2">&quot;Performing L1 trend filtering for , {}&quot;</span><span
-                                                class="o">.</span><span class="n">format</span><span
-                                                class="p">(</span><span class="n">signal_name</span><span
-                                                class="p">))</span>
-
         <span class="n">lamda</span> <span class="o">=</span> <span class="n">run_config</span><span
                                                 class="p">[</span><span class="s2">&quot;lambda&quot;</span><span
                                                 class="p">]</span>
@@ -275,7 +256,11 @@
         <span class="n">slope_tol</span> <span class="o">=</span> <span class="n">run_config</span><span
                                                 class="p">[</span><span
                                                 class="s2">&quot;slope_tolerance&quot;</span><span class="p">]</span>
-
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
+                                                class="s2">&quot;Initialising l1 trend filter for </span><span
+                                                class="si">%s</span><span class="s2">&quot;</span><span
+                                                class="p">,</span> <span class="n">signal_name</span><span
+                                                class="p">)</span>
         <span class="n">trend</span> <span class="o">=</span> <span class="n">l1</span><span class="o">.</span><span
                                                 class="n">l1_trend</span><span class="p">(</span><span
                                                 class="n">signal</span><span class="p">,</span> <span
@@ -285,22 +270,7 @@
                                                 class="p">,</span> <span class="n">feas_tol</span><span
                                                 class="p">,</span> <span class="n">refine</span><span class="p">)</span>
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
-                                                class="s2">&quot;L1 trend filtering completed at given configuration for  , {}&quot;</span><span
-                                                class="o">.</span><span class="n">format</span><span
-                                                class="p">(</span><span class="n">signal_name</span><span
-                                                class="p">))</span>
-        <span class="n">cp</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span
-                                                class="n">extract_segment</span><span class="p">(</span><span class="n">trend</span><span
-                                                class="p">,</span> <span class="n">slope_tol</span><span
-                                                class="p">)</span>
-        <span class="n">ext_result</span> <span class="o">=</span> <span class="n">ts</span><span
-                                                class="o">.</span><span class="n">get_result</span><span
-                                                class="p">(</span><span class="n">trend</span><span
-                                                class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span
-                                                class="n">cp</span><span class="p">)</span>
-        <span class="n">stored_result</span><span class="o">.</span><span class="n">append</span><span
-                                                class="p">(</span><span class="n">ext_result</span><span
-                                                class="p">)</span>
+                                                class="s2">&quot;Process ended successfully&quot;</span><span class="p">)</span>
 </pre>
                                     </div>
                                 </div>
@@ -322,13 +292,13 @@
                                 </ul>
                                 <p>For example if one were to request for a help message like so</p>
                                 <div class="highlight-bash notranslate">
-                                    <div class="highlight"><pre><span></span><span class="nv">$python3</span> L1_sample_main.py --help
+                                    <div class="highlight"><pre><span></span><span class="nv">$python3</span> l1_sample_main.py --help
 </pre>
                                     </div>
                                 </div>
                                 <p>the following help message will be displayed</p>
                                 <div class="highlight-bash notranslate">
-                                    <div class="highlight"><pre><span></span>usage: L1_sample_main.py <span
+                                    <div class="highlight"><pre><span></span>usage: l1_sample_main.py <span
                                             class="o">[</span>-h<span class="o">]</span> --data_dir DATA_DIR --config_dir CONFIG_DIR
                      <span class="o">[</span>--log_config_file LOG_CONFIG_FILE<span class="o">]</span>
 
@@ -360,7 +330,7 @@ optional arguments:
                                     file.</p>
                                 <p>An example of call code would look like this</p>
                                 <div class="highlight-bash notranslate">
-                                    <div class="highlight"><pre><span></span>$ python3 L1_sample_main.py --data_dir<span
+                                    <div class="highlight"><pre><span></span>$ python3 l1_sample_main.py --data_dir<span
                                             class="o">=</span><span class="s2">&quot;/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_data&quot;</span> --config_dir<span
                                             class="o">=</span><span class="s2">&quot;/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_config&quot;</span>
 </pre>
@@ -396,7 +366,7 @@ optional arguments:
     <span class="p">}</span>
   <span class="p">},</span>
   <span class="nt">&quot;loggers&quot;</span>                 <span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;lqtf.helpers&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;l1tf.helpers&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;level&quot;</span>   <span class="p">:</span> <span
                                                 class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
       <span class="nt">&quot;propagate&quot;</span><span class="p">:</span> <span class="kc">false</span><span
@@ -417,9 +387,9 @@ optional arguments:
 </pre>
                                     </div>
                                 </div>
-                                <p>the log-level for the logger present in the <a class="reference internal"
-                                                                                  href="l1tf.helpers.html#module-l1tf.helpers"
-                                                                                  title="l1tf.helpers"><code
+                                <p>sets level for the logger present in the <a class="reference internal"
+                                                                               href="l1tf.helpers.html#module-l1tf.helpers"
+                                                                               title="l1tf.helpers"><code
                                         class="xref py py-mod docutils literal notranslate"><span class="pre">l1tf.helpers</span></code></a>
                                     module has been set to level DEBUG.
                                     For a complete guide on python logging framework refer to the official documentation

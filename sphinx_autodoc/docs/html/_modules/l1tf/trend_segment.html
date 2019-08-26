@@ -79,8 +79,6 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../l1tf.l1.html">1. L1 Trend
                         Filtering</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.get_tridiagonal_matrix.html">2.
-                        Tridiagonal matrix</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Helper Functions</span></p>
                 <ul>
@@ -234,13 +232,10 @@
         <span class="n">segment_result</span> <span class="o">=</span> <span class="n">TrendResult</span><span
             class="p">(</span><span class="n">change_point_ind</span><span class="p">,</span> <span
             class="n">trend</span><span class="p">,</span> <span class="n">signal</span><span class="p">)</span>
-        <span class="n">segment_result</span><span class="o">.</span><span class="n">get_slope_intercept</span><span
+        <span class="n">segment_result</span><span class="o">.</span><span class="n">eval_attributes</span><span
             class="p">()</span>
-        <span class="n">segment_result</span><span class="o">.</span><span class="n">get_segment_fit_result</span><span
-            class="p">(</span><span class="n">signal</span><span class="p">)</span>
         <span class="n">list_result</span><span class="o">.</span><span class="n">append</span><span
-            class="p">(</span><span class="nb">vars</span><span class="p">(</span><span
-            class="n">segment_result</span><span class="p">))</span>
+            class="p">(</span><span class="n">segment_result</span><span class="p">)</span>
     <span class="n">result_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;segment_result&#39;</span><span
             class="p">:</span> <span class="n">list_result</span><span class="p">,</span> <span class="s1">&#39;overall_mse&#39;</span><span
             class="p">:</span> <span class="n">overall_mse</span><span class="p">}</span>
@@ -255,14 +250,26 @@
 <span class="sd">    This class instantiates an object will following attributes: slope, intercept, start, end, segment_trend, residual,</span>
 <span class="sd">    y.</span>
 
-<span class="sd">    :ivar change_point_ind: Change point indices for particular segment</span>
-<span class="sd">    :vartype change_point_ind: :class:`numpy.ndarray`</span>
+<span class="sd">    :ivar slope: slope of the linear segment</span>
+<span class="sd">    :vartype slope: float</span>
 
-<span class="sd">    :ivar trend: Extracted L1 trend of signal</span>
-<span class="sd">    :vartype trend: :class:`numpy.ndarray`</span>
+<span class="sd">    :ivar intercept: intercept of the linear segment.</span>
+<span class="sd">    :vartype trend: float</span>
 
-<span class="sd">    :ivar signal: Original Signal</span>
-<span class="sd">    :vartype y: :class:`numpy.ndarray`</span>
+<span class="sd">    :ivar start: start index of the linear segment.</span>
+<span class="sd">    :vartype start: int</span>
+
+<span class="sd">    :ivar end: last index of the linear segment</span>
+<span class="sd">    :vartype end: int</span>
+
+<span class="sd">    :ivar segment_trend: extracted trend.</span>
+<span class="sd">    :vartype segment_trend: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :ivar signal: values of signal for the segment</span>
+<span class="sd">    :vartype signal: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :ivar residual: residue of fit for the segment</span>
+<span class="sd">    :vartype residual: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TrendResult.check"><a class="viewcode-back"
@@ -358,52 +365,35 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span
             class="n">change_point_ind</span><span class="p">,</span> <span class="n">trend</span><span
             class="p">,</span> <span class="n">signal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span
+            class="n">change_point_ind</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span
+            class="n">change_point_ind</span><span class="p">[</span><span class="o">-</span><span
+            class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span> <span
+            class="o">=</span> <span class="n">trend</span><span class="p">[</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">start</span><span class="p">:</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span
+            class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="o">=</span> <span
+            class="n">signal</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">start</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span class="o">=</span> <span
             class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span
-            class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span
-            class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span
-            class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span> <span
             class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">segment_mse</span> <span class="o">=</span> <span
             class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span
             class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="o">=</span> <span
-            class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span
-            class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span
-            class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span
-            class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span
-            class="n">segment_trend</span> <span class="ow">is</span> <span class="kc">None</span> <span
-            class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span
-            class="n">signal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span
-            class="o">=</span> <span class="n">change_point_ind</span><span class="p">[</span><span
-            class="mi">0</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span
-            class="o">=</span> <span class="n">change_point_ind</span><span class="p">[</span><span
-            class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span> <span
-            class="o">=</span> <span class="n">trend</span><span class="p">[</span><span class="bp">self</span><span
-            class="o">.</span><span class="n">start</span><span class="p">:</span> <span class="bp">self</span><span
-            class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span
-            class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span
-            class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="bp">self</span><span
-            class="o">.</span><span class="n">start</span><span class="p">:</span> <span class="bp">self</span><span
-            class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span
-            class="p">]</span>
 
-<div class="viewcode-block" id="TrendResult.get_slope_intercept"><a class="viewcode-back"
-                                                                    href="../../l1tf.trend_segment.html#l1tf.trend_segment.TrendResult.get_slope_intercept">[docs]</a>    <span
-        class="k">def</span> <span class="nf">get_slope_intercept</span><span class="p">(</span><span
-        class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TrendResult.eval_attributes"><a class="viewcode-back"
+                                                                href="../../l1tf.trend_segment.html#l1tf.trend_segment.TrendResult.eval_attributes">[docs]</a>    <span
+        class="k">def</span> <span class="nf">eval_attributes</span><span class="p">(</span><span class="bp">self</span><span
+        class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        calculates slope and intercept and stores values in class object attribute : slope and intercept.</span>
+<span class="sd">        calculates specified attributes for the object.</span>
 
 <span class="sd">        :return: Nothing</span>
 <span class="sd">        :rtype: None</span>
@@ -436,22 +426,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span
             class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span
-            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span></div>
+            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span>
 
-<div class="viewcode-block" id="TrendResult.get_segment_fit_result"><a class="viewcode-back"
-                                                                       href="../../l1tf.trend_segment.html#l1tf.trend_segment.TrendResult.get_segment_fit_result">[docs]</a>    <span
-        class="k">def</span> <span class="nf">get_segment_fit_result</span><span class="p">(</span><span
-        class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates residue and mean square error in a segment. It stores values in class object attribute : segment_mse</span>
-<span class="sd">        and residual</span>
-
-<span class="sd">        :param signal: Original Signal</span>
-<span class="sd">        :type signal: :class:`numpy.ndarray`</span>
-
-<span class="sd">        :return: Nothing</span>
-<span class="sd">        :rtype: None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_mse</span> <span
             class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span
             class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span
@@ -459,20 +435,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">segment_mse</span> <span
             class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span
             class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span
-            class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="bp">self</span><span
-            class="o">.</span><span class="n">start</span><span class="p">:</span><span class="bp">self</span><span
-            class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span
-            class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signal</span><span
+            class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span
             class="n">square</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
             class="n">segment_trend</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span
-            class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span><span class="p">)</span>
+            class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span
             class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span
             class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span
-            class="n">signal</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span
-            class="n">start</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span
-            class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">signal</span><span class="p">,</span> <span
             class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span><span class="p">))</span></div></div>
 </pre>
                         </div>

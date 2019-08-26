@@ -79,8 +79,6 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../l1tf.l1.html">1. L1 Trend
                         Filtering</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.get_tridiagonal_matrix.html">2.
-                        Tridiagonal matrix</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Helper Functions</span></p>
                 <ul>
@@ -158,26 +156,18 @@
 <span class="kn">import</span> <span class="nn">logging.config</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">import</span> <span class="nn">l1tf.help_msg</span> <span class="k">as</span> <span
                                 class="nn">help_msg</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;nitesh@gyandata.com&quot;</span>
 
-<span class="c1"># setting logger #</span>
-
 <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span
                                 class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span
                                 class="p">)</span>
-<span class="n">LOGGER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span
-                                class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span
-                                class="p">)</span>
-<span class="n">STREAM_HANDLER</span> <span class="o">=</span> <span class="n">logging</span><span
-                                class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
-<span class="n">LOGGER</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span
-                                class="n">STREAM_HANDLER</span><span class="p">)</span>
 
 <span class="n">_REQ_GROUP_ARG</span> <span class="o">=</span> <span class="s2">&quot; Necessary Arguments&quot;</span>
 <span class="n">_OPT_ARG</span> <span class="o">=</span> <span class="s2">&quot;Optional Argument&quot;</span>
@@ -265,13 +255,11 @@
         <span class="n">log_opts_dict</span> <span class="o">=</span> <span class="n">json</span><span
             class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">log_file</span><span
             class="p">)</span>
-
         <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span
             class="n">dictConfig</span><span class="p">(</span><span class="n">log_opts_dict</span><span
             class="p">)</span>
-
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
-            class="s2">&quot;Logger initialization successful!&quot;</span><span class="p">)</span></div>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
+            class="s2">&quot;Logging configuration successfully initialized&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="load_data"><a class="viewcode-back"
@@ -369,10 +357,8 @@
             class="p">)</span>
 
         <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
-            class="s2">&quot;</span><span class="si">{}</span><span
-            class="s2">, : this file is being processed&quot;</span><span class="o">.</span><span
-            class="n">format</span><span class="p">(</span><span class="n">file_name_no_ext</span><span
-            class="p">))</span>
+            class="s2">&quot;file being read is </span><span class="si">%s</span><span class="s2">&quot;</span><span
+            class="p">,</span> <span class="n">file_name_no_ext</span><span class="p">)</span>
 
         <span class="c1"># checking if the path exists or not</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span
@@ -380,9 +366,8 @@
             class="n">data_fp</span><span class="p">):</span>
             <span class="c1"># If not log the error and continue with operation #</span>
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span
-            class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, does not exist in the directory&quot;</span><span
-            class="o">.</span><span class="n">format</span><span class="p">(</span><span
-            class="n">file_name_no_ext</span><span class="p">))</span>
+            class="p">(</span><span class="s2">&quot; </span><span class="si">%s</span><span class="s2"> does not exist in the directory&quot;</span><span
+            class="p">,</span> <span class="n">file_name_no_ext</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># reading configuration file #</span>
@@ -395,9 +380,9 @@
             class="p">)</span>
 
             <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span
-            class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, is being read&quot;</span><span
-            class="o">.</span><span class="n">format</span><span class="p">(</span><span
-            class="n">file_name_no_ext</span><span class="p">))</span>
+            class="p">(</span><span class="s2">&quot; parameters of l1 trend for </span><span class="si">%s</span><span
+            class="s2"> is being read&quot;</span><span class="p">,</span> <span class="n">file_name_no_ext</span><span
+            class="p">)</span>
 
             <span class="c1"># loading data files #</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span

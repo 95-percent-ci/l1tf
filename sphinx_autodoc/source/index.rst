@@ -16,7 +16,6 @@ Welcome to **L-1 trend filtering**'s documentation
    :maxdepth: 2
 
    l1tf.l1
-   l1tf.get_tridiagonal_matrix
 
 
 .. toctree::

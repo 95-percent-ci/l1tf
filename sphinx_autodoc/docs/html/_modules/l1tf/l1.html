@@ -79,8 +79,6 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../l1tf.l1.html">1. L1 Trend
                         Filtering</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.get_tridiagonal_matrix.html">2.
-                        Tridiagonal matrix</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Helper Functions</span></p>
                 <ul>
@@ -162,8 +160,43 @@
                                 class="n">spmatrix</span><span class="p">,</span> <span class="n">matrix</span><span
                                 class="p">,</span> <span class="n">solvers</span><span class="p">,</span> <span
                                 class="n">sparse</span>
-<span class="kn">from</span> <span class="nn">l1tf.get_tridiagonal_matrix</span> <span class="k">import</span> <span
-                                class="n">derivative_matrix</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span
+                                class="n">toeplitz</span>
+
+
+<div class="viewcode-block" id="derivative_matrix"><a class="viewcode-back"
+                                                      href="../../l1tf.l1.html#l1tf.l1.derivative_matrix">[docs]</a><span
+        class="k">def</span> <span class="nf">derivative_matrix</span><span class="p">(</span><span
+        class="n">length</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Sparse toeplitz matrix for the computation of l1 trend.</span>
+
+<span class="sd">    :param length: length of the input signal</span>
+<span class="sd">    :type length: int</span>
+
+<span class="sd">    :return: der_matrix</span>
+<span class="sd">    :rtype: :class:`numpy.ndarray`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">zeros</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+    <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span
+            class="mi">1</span>
+    <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span
+            class="o">-</span><span class="mi">2</span>
+    <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span
+            class="mi">1</span>
+
+    <span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">zeros</span><span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span
+            class="mi">2</span><span class="p">)</span>
+    <span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span
+            class="mi">1</span>
+
+    <span class="n">der_matrix</span> <span class="o">=</span> <span class="n">toeplitz</span><span
+            class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span
+            class="p">)</span>
+
+    <span class="k">return</span> <span class="n">der_matrix</span></div>
 
 
 <div class="viewcode-block" id="l1_trend"><a class="viewcode-back" href="../../l1tf.l1.html#l1tf.l1.l1_trend">[docs]</a><span
@@ -178,25 +211,26 @@
 <span class="sd">    This function checks if L-1 trend filtering can be done or not on the signal and initiates l1 trend filtering</span>
 <span class="sd">    algorithm</span>
 
-<span class="sd">    :param signal: Input signal</span>
+<span class="sd">    :param signal: Input signal.( a time series data )</span>
 <span class="sd">    :type signal: :class:`numpy.ndarray`</span>
 
-<span class="sd">    :param lamda: Regularization paramater.</span>
+<span class="sd">    :param lamda: Regularization paramater.( Higher value leads to single stra</span>
 <span class="sd">    :type lamda: float</span>
 
-<span class="sd">    :param iter_max: Maximum number of iterations</span>
+<span class="sd">    :param iter_max: Maximum number of solver iterations</span>
 <span class="sd">    :type iter_max: int</span>
 
-<span class="sd">    :param tol_abs: Absolute accuracy</span>
+<span class="sd">    :param tol_abs: Absolute accuracy ( Required difference between primal and dual objective function )</span>
+
 <span class="sd">    :type tol_abs: float</span>
 
-<span class="sd">    :param tol_rel: Relative accuracy</span>
+<span class="sd">    :param tol_rel: Relative accuracy (step tolerance, iteration ends when solver step size is less than this value )</span>
 <span class="sd">    :type tol_rel: float</span>
 
-<span class="sd">    :param feas_rel: Tolerance for feasibility conditions</span>
+<span class="sd">    :param feas_rel: Tolerance for feasibility conditions ( Tolerance on dual feasibility )</span>
 <span class="sd">    :type feas_rel: float</span>
 
-<span class="sd">    :param refine: Number of iterative refinement steps when solving KKT equations</span>
+<span class="sd">    :param refine: Number of iterative refinement steps when solving KKT equations, for Quadratic problem it is 0.</span>
 <span class="sd">    :type refine: int</span>
 
 <span class="sd">    :return: trend_ext: Extracted trend from the signal</span>
@@ -294,12 +328,20 @@
     <span class="n">sparse_diag_mat</span> <span class="o">=</span> <span class="n">sparse</span><span
             class="p">(</span><span class="n">matrix</span><span class="p">(</span><span
             class="n">diag_matrix</span><span class="p">))</span>
+
+    <span class="c1"># P matrix #</span>
     <span class="n">p_matrix</span> <span class="o">=</span> <span class="n">sparse_diag_mat</span> <span
             class="o">*</span> <span class="n">sparse_diag_mat</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c1"># signal converted into cvxopt matrix #</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span
             class="n">signal</span><span class="p">)</span>
+
+    <span class="c1"># Q matrix #</span>
     <span class="n">q_matrix</span> <span class="o">=</span> <span class="o">-</span><span
             class="n">sparse_diag_mat</span> <span class="o">*</span> <span class="n">sig</span>
+
+    <span class="c1"># G matrix #</span>
     <span class="n">g_matrix</span> <span class="o">=</span> <span class="n">spmatrix</span><span class="p">([],</span> <span
             class="p">[],</span> <span class="p">[],</span> <span class="p">(</span><span class="mi">2</span> <span
             class="o">*</span> <span class="n">temp</span><span class="p">,</span> <span class="n">temp</span><span
@@ -313,11 +355,15 @@
             class="o">-</span><span class="n">spmatrix</span><span class="p">(</span><span class="mf">1.0</span><span
             class="p">,</span> <span class="n">temp_ls</span><span class="p">,</span> <span
             class="n">temp_ls</span><span class="p">)</span>
+
+    <span class="c1"># h matrix #</span>
     <span class="n">h_matrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span
             class="n">lamda</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span> <span
             class="o">*</span> <span class="n">temp</span><span class="p">,</span> <span class="mi">1</span><span
             class="p">),</span> <span class="n">tc</span><span class="o">=</span><span
             class="s1">&#39;d&#39;</span><span class="p">)</span>
+
+    <span class="c1"># solution #</span>
     <span class="n">dual_sol</span> <span class="o">=</span> <span class="n">solvers</span><span class="o">.</span><span
             class="n">qp</span><span class="p">(</span><span class="n">p_matrix</span><span class="p">,</span> <span
             class="n">q_matrix</span><span class="p">,</span> <span class="n">g_matrix</span><span

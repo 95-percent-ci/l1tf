@@ -82,7 +82,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="quickuse.html">3. Usage</a></li>
                 </ul>
-                <p class="caption"><span class="caption-text">L1 Trend Filtering</span></p>
+                <p class="caption"><span class="caption-text">Algorithm code</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.l1.html">1. L1 Trend Filtering</a>
                     </li>
@@ -93,8 +93,13 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
                         Extraction</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Initialisation</a>
-                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Commandline
+                        Initialization</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Message keys</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.help_msg.html">1. HELP MESSAGE
+                        KEYS</a></li>
                 </ul>
 
 
@@ -218,7 +223,7 @@
                                     <p><img src="_images/math/eda45b702ba89d414985fa2dbebf3ae67bcfbaf4.png"
                                             alt="g(\nu) = (1/2)\nu^T DD^T \nu - y^T D^T \nu"/></p>
                                 </div>
-                                <p>subjected to</p>
+                                <p>subject to</p>
                                 <div class="math">
                                     <p><img src="_images/math/92ed2800c56feeb70082097540a880d7331566b2.png"
                                             alt="-\lambda \leq \nu \leq  \lambda"/></p>
@@ -239,8 +244,8 @@
                                                           title="Permalink to this headline">¶</a></h2>
                                 <p>CVXOPT ( Python Software For Convex Optimization ) is used directly for solving
                                     quadratic programming.
-                                    <code class="xref py py-class docutils literal notranslate"><span class="pre">cvxopt.solvers.qp</span></code>
-                                    is for solving the dual formulation. It solves
+                                    CVXOPT quadratic programming solver is used for solving the dual formulation. It
+                                    solves
                                     quadratic program of form</p>
                                 <div class="math">
                                     <p><img src="_images/math/fae770950607152a43c97c5d8588c6aee31ee3a2.png" alt="minimize :(1/2)x^T P x + q^T x
@@ -279,10 +284,11 @@ Ax = b"/></p>
                                     <p><img src="_images/math/bdc2e2f120aff594d6ed42391e4f420b12661d47.png"
                                             alt="G[:n-2,:] = 1, G[n-2:,:] = -1"/></p>
                                 </div>
-                                <p>The user is requested to go through CVXOPT documentation <a
-                                        class="reference external" href="https://cvxopt.org/userguide/index.html">CVXOPT
+                                <p>The user is requested to go through <a class="reference external"
+                                                                          href="https://cvxopt.org/userguide/index.html">CVXOPT
                                     documentation</a>
-                                    for better understanding.</p>
+                                    and <a class="reference external" href="https://cvxopt.org/userguide/coneprog.html">Quadratic
+                                        programming</a> for better understanding.</p>
                             </div>
                         </div>
 

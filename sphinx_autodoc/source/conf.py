@@ -54,7 +54,7 @@ extensions = [
 intersphinx_mapping = {
     'numpy': ('http://docs.scipy.org/doc/numpy/', None),
     'python': ('https://docs.python.org/3', None),
-    'cvxopt': ('http://cvxopt.org/index.html', None)
+    'cvxopt': ('http://cvxopt.org/', None)
 }
 
 # imgmath: Sphinx allows use of LaTeX in the html documentation, but not directly. It is first rendered to an image.

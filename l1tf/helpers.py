@@ -23,12 +23,7 @@ import l1tf.help_msg as help_msg
 
 __author__ = "nitesh@gyandata.com"
 
-# setting logger #
-
 LOGGER = logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)
-STREAM_HANDLER = logging.StreamHandler()
-LOGGER.addHandler(STREAM_HANDLER)
 
 _REQ_GROUP_ARG = " Necessary Arguments"
 _OPT_ARG = "Optional Argument"
@@ -79,10 +74,8 @@ def config_logger(log_file_path):
 
     with open(log_file_path, 'r') as log_file:
         log_opts_dict = json.load(log_file)
-
         logging.config.dictConfig(log_opts_dict)
-
-    LOGGER.info("Logger initialization successful!")
+        LOGGER.info("Logging configuration successfully initialized")
 
 
 def load_data(data_dir_fp, config_dir_fp):
@@ -148,12 +141,12 @@ def load_data(data_dir_fp, config_dir_fp):
         # constructing the full path
         data_fp = os.path.join(data_dir_fp, data_file_name)
 
-        LOGGER.info("{}, : this file is being processed".format(file_name_no_ext))
+        LOGGER.info("file being read is %s", file_name_no_ext)
 
         # checking if the path exists or not
         if not os.path.exists(data_fp):
             # If not log the error and continue with operation #
-            LOGGER.error("{}, does not exist in the directory".format(file_name_no_ext))
+            LOGGER.error(" %s does not exist in the directory", file_name_no_ext)
             continue
         else:
             # reading configuration file #
@@ -161,7 +154,7 @@ def load_data(data_dir_fp, config_dir_fp):
                 # loading in json
                 config = json.load(config_file)
 
-            LOGGER.info("{}, is being read".format(file_name_no_ext))
+            LOGGER.info(" parameters of l1 trend for %s is being read", file_name_no_ext)
 
             # loading data files #
             with open(data_fp, 'r') as data_file:

@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="genindex.html"/>
     <link rel="search" title="Search" href="search.html"/>
     <link rel="next" title="2. Commandline Initialization" href="l1tf.helpers.html"/>
-    <link rel="prev" title="2. Tridiagonal matrix" href="l1tf.get_tridiagonal_matrix.html"/>
+    <link rel="prev" title="1. L1 Trend Filtering" href="l1tf.l1.html"/>
 </head>
 
 <body class="wy-body-for-nav">
@@ -80,8 +80,6 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.l1.html">1. L1 Trend Filtering</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.get_tridiagonal_matrix.html">2.
-                        Tridiagonal matrix</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Helper Functions</span></p>
                 <ul class="current">
@@ -144,9 +142,8 @@
                                 class="fa fa-arrow-circle-right"></span></a>
 
 
-                        <a href="l1tf.get_tridiagonal_matrix.html" class="btn btn-neutral float-left"
-                           title="2. Tridiagonal matrix" accesskey="p"><span class="fa fa-arrow-circle-left"></span>
-                            Previous</a>
+                        <a href="l1tf.l1.html" class="btn btn-neutral float-left" title="1. L1 Trend Filtering"
+                           accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
 
                     </div>
 
@@ -183,22 +180,39 @@
                                         <dt class="field-odd">Variables</dt>
                                         <dd class="field-odd">
                                             <ul class="simple">
-                                                <li><p><strong>change_point_ind</strong> (<a class="reference external"
-                                                                                             href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
-                                                                                             title="(in NumPy v1.17)"><code
+                                                <li><p><strong>slope</strong> (<a class="reference external"
+                                                                                  href="https://docs.python.org/3/library/functions.html#float"
+                                                                                  title="(in Python v3.7)"><em>float</em></a>)
+                                                    – slope of the linear segment</p></li>
+                                                <li><p><strong>intercept</strong> – intercept of the linear segment.</p>
+                                                </li>
+                                                <li><p><strong>start</strong> (<a class="reference external"
+                                                                                  href="https://docs.python.org/3/library/functions.html#int"
+                                                                                  title="(in Python v3.7)"><em>int</em></a>)
+                                                    – start index of the linear segment.</p></li>
+                                                <li><p><strong>end</strong> (<a class="reference external"
+                                                                                href="https://docs.python.org/3/library/functions.html#int"
+                                                                                title="(in Python v3.7)"><em>int</em></a>)
+                                                    – last index of the linear segment</p></li>
+                                                <li><p><strong>segment_trend</strong> (<a class="reference external"
+                                                                                          href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
+                                                                                          title="(in NumPy v1.17)"><code
                                                         class="xref py py-class docutils literal notranslate"><span
-                                                        class="pre">numpy.ndarray</span></code></a>) – Change point
-                                                    indices for particular segment</p></li>
-                                                <li><p><strong>trend</strong> (<a class="reference external"
-                                                                                  href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
-                                                                                  title="(in NumPy v1.17)"><code
-                                                        class="xref py py-class docutils literal notranslate"><span
-                                                        class="pre">numpy.ndarray</span></code></a>) – Extracted L1
-                                                    trend of signal</p></li>
+                                                        class="pre">numpy.ndarray</span></code></a>) – extracted trend.
+                                                </p></li>
                                                 <li><p><a class="reference external"
                                                           href="https://docs.python.org/3/library/signal.html#module-signal"
-                                                          title="(in Python v3.7)"><strong>signal</strong></a> –
-                                                    Original Signal</p></li>
+                                                          title="(in Python v3.7)"><strong>signal</strong></a> (<a
+                                                        class="reference external"
+                                                        href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
+                                                        title="(in NumPy v1.17)"><code
+                                                        class="xref py py-class docutils literal notranslate"><span
+                                                        class="pre">numpy.ndarray</span></code></a>) – values of signal
+                                                    for the segment</p></li>
+                                                <li><p><strong>residual</strong> (<a class="reference external"
+                                                                                     href="https://docs.python.org/3/library/functions.html#float"
+                                                                                     title="(in Python v3.7)"><em>float</em></a>)
+                                                    – residue of fit for the segment</p></li>
                                             </ul>
                                         </dd>
                                     </dl>
@@ -253,52 +267,16 @@
                                     </dl>
 
                                     <dl class="method">
-                                        <dt id="l1tf.trend_segment.TrendResult.get_segment_fit_result">
-                                            <code class="sig-name descname">get_segment_fit_result</code><span
-                                                class="sig-paren">(</span><em class="sig-param">signal</em><span
-                                                class="sig-paren">)</span><a class="reference internal"
-                                                                             href="_modules/l1tf/trend_segment.html#TrendResult.get_segment_fit_result"><span
-                                                class="viewcode-link">[source]</span></a><a class="headerlink"
-                                                                                            href="#l1tf.trend_segment.TrendResult.get_segment_fit_result"
-                                                                                            title="Permalink to this definition">¶</a>
-                                        </dt>
-                                        <dd><p>Calculates residue and mean square error in a segment. It stores values
-                                            in class object attribute : segment_mse
-                                            and residual</p>
-                                            <dl class="field-list simple">
-                                                <dt class="field-odd">Parameters</dt>
-                                                <dd class="field-odd"><p><strong>signal</strong> (<a
-                                                        class="reference external"
-                                                        href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
-                                                        title="(in NumPy v1.17)"><code
-                                                        class="xref py py-class docutils literal notranslate"><span
-                                                        class="pre">numpy.ndarray</span></code></a>) – Original Signal
-                                                </p>
-                                                </dd>
-                                                <dt class="field-even">Returns</dt>
-                                                <dd class="field-even"><p>Nothing</p>
-                                                </dd>
-                                                <dt class="field-odd">Return type</dt>
-                                                <dd class="field-odd"><p><a class="reference external"
-                                                                            href="https://docs.python.org/3/library/constants.html#None"
-                                                                            title="(in Python v3.7)">None</a></p>
-                                                </dd>
-                                            </dl>
-                                        </dd>
-                                    </dl>
-
-                                    <dl class="method">
-                                        <dt id="l1tf.trend_segment.TrendResult.get_slope_intercept">
-                                            <code class="sig-name descname">get_slope_intercept</code><span
+                                        <dt id="l1tf.trend_segment.TrendResult.eval_attributes">
+                                            <code class="sig-name descname">eval_attributes</code><span
                                                 class="sig-paren">(</span><span class="sig-paren">)</span><a
                                                 class="reference internal"
-                                                href="_modules/l1tf/trend_segment.html#TrendResult.get_slope_intercept"><span
+                                                href="_modules/l1tf/trend_segment.html#TrendResult.eval_attributes"><span
                                                 class="viewcode-link">[source]</span></a><a class="headerlink"
-                                                                                            href="#l1tf.trend_segment.TrendResult.get_slope_intercept"
+                                                                                            href="#l1tf.trend_segment.TrendResult.eval_attributes"
                                                                                             title="Permalink to this definition">¶</a>
                                         </dt>
-                                        <dd><p>calculates slope and intercept and stores values in class object
-                                            attribute : slope and intercept.</p>
+                                        <dd><p>calculates specified attributes for the object.</p>
                                             <dl class="field-list simple">
                                                 <dt class="field-odd">Returns</dt>
                                                 <dd class="field-odd"><p>Nothing</p>
@@ -450,9 +428,8 @@
                                 class="fa fa-arrow-circle-right"></span></a>
 
 
-                        <a href="l1tf.get_tridiagonal_matrix.html" class="btn btn-neutral float-left"
-                           title="2. Tridiagonal matrix" accesskey="p" rel="prev"><span
-                                class="fa fa-arrow-circle-left"></span> Previous</a>
+                        <a href="l1tf.l1.html" class="btn btn-neutral float-left" title="1. L1 Trend Filtering"
+                           accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
 
                     </div>
 

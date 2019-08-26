@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="index" title="Index" href="genindex.html"/>
     <link rel="search" title="Search" href="search.html"/>
-    <link rel="next" title="2. Tridiagonal matrix" href="l1tf.get_tridiagonal_matrix.html"/>
+    <link rel="next" title="1. Result Extraction" href="l1tf.trend_segment.html"/>
     <link rel="prev" title="3. Usage" href="quickuse.html"/>
 </head>
 
@@ -80,15 +80,13 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="current reference internal" href="#">1. L1 Trend
                         Filtering</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.get_tridiagonal_matrix.html">2.
-                        Tridiagonal matrix</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Helper Functions</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
                         Extraction</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Initialisation</a>
-                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Commandline
+                        Initialization</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Message keys</span></p>
                 <ul>
@@ -139,8 +137,8 @@
 
                     <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
 
-                        <a href="l1tf.get_tridiagonal_matrix.html" class="btn btn-neutral float-right"
-                           title="2. Tridiagonal matrix" accesskey="n">Next <span
+                        <a href="l1tf.trend_segment.html" class="btn btn-neutral float-right"
+                           title="1. Result Extraction" accesskey="n">Next <span
                                 class="fa fa-arrow-circle-right"></span></a>
 
 
@@ -170,6 +168,39 @@
                             <p><a class="reference external" href="https://cvxopt.org/userguide/index.html">CVXOPT
                                 documentation</a></p>
                             <dl class="function">
+                                <dt id="l1tf.l1.derivative_matrix">
+                                    <code class="sig-prename descclassname">l1tf.l1.</code><code
+                                        class="sig-name descname">derivative_matrix</code><span
+                                        class="sig-paren">(</span><em class="sig-param">length</em><span
+                                        class="sig-paren">)</span><a class="reference internal"
+                                                                     href="_modules/l1tf/l1.html#derivative_matrix"><span
+                                        class="viewcode-link">[source]</span></a><a class="headerlink"
+                                                                                    href="#l1tf.l1.derivative_matrix"
+                                                                                    title="Permalink to this definition">¶</a>
+                                </dt>
+                                <dd><p>Get Sparse toeplitz matrix for the computation of l1 trend.</p>
+                                    <dl class="field-list simple">
+                                        <dt class="field-odd">Parameters</dt>
+                                        <dd class="field-odd"><p><strong>length</strong> (<a class="reference external"
+                                                                                             href="https://docs.python.org/3/library/functions.html#int"
+                                                                                             title="(in Python v3.7)"><em>int</em></a>)
+                                            – length of the input signal</p>
+                                        </dd>
+                                        <dt class="field-even">Returns</dt>
+                                        <dd class="field-even"><p>der_matrix</p>
+                                        </dd>
+                                        <dt class="field-odd">Return type</dt>
+                                        <dd class="field-odd"><p><a class="reference external"
+                                                                    href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
+                                                                    title="(in NumPy v1.17)"><code
+                                                class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>
+                                        </p>
+                                        </dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+
+                            <dl class="function">
                                 <dt id="l1tf.l1.l1_trend">
                                     <code class="sig-prename descclassname">l1tf.l1.</code><code
                                         class="sig-name descname">l1_trend</code><span class="sig-paren">(</span><em
@@ -193,33 +224,37 @@
                                                                                    href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
                                                                                    title="(in NumPy v1.17)"><code
                                                         class="xref py py-class docutils literal notranslate"><span
-                                                        class="pre">numpy.ndarray</span></code></a>) – Input signal</p>
-                                                </li>
+                                                        class="pre">numpy.ndarray</span></code></a>) – Input signal.( a
+                                                    time series data )</p></li>
                                                 <li><p><strong>lamda</strong> (<a class="reference external"
                                                                                   href="https://docs.python.org/3/library/functions.html#float"
                                                                                   title="(in Python v3.7)"><em>float</em></a>)
-                                                    – Regularization paramater.</p></li>
+                                                    – Regularization paramater.( Higher value leads to single stra</p>
+                                                </li>
                                                 <li><p><strong>iter_max</strong> (<a class="reference external"
                                                                                      href="https://docs.python.org/3/library/functions.html#int"
                                                                                      title="(in Python v3.7)"><em>int</em></a>)
-                                                    – Maximum number of iterations</p></li>
+                                                    – Maximum number of solver iterations</p></li>
                                                 <li><p><strong>tol_abs</strong> (<a class="reference external"
                                                                                     href="https://docs.python.org/3/library/functions.html#float"
                                                                                     title="(in Python v3.7)"><em>float</em></a>)
-                                                    – Absolute accuracy</p></li>
+                                                    – Absolute accuracy ( Required difference between primal and dual
+                                                    objective function )</p></li>
                                                 <li><p><strong>tol_rel</strong> (<a class="reference external"
                                                                                     href="https://docs.python.org/3/library/functions.html#float"
                                                                                     title="(in Python v3.7)"><em>float</em></a>)
-                                                    – Relative accuracy</p></li>
+                                                    – Relative accuracy (step tolerance, iteration ends when solver step
+                                                    size is less than this value )</p></li>
                                                 <li><p><strong>feas_rel</strong> (<a class="reference external"
                                                                                      href="https://docs.python.org/3/library/functions.html#float"
                                                                                      title="(in Python v3.7)"><em>float</em></a>)
-                                                    – Tolerance for feasibility conditions</p></li>
+                                                    – Tolerance for feasibility conditions ( Tolerance on dual
+                                                    feasibility )</p></li>
                                                 <li><p><strong>refine</strong> (<a class="reference external"
                                                                                    href="https://docs.python.org/3/library/functions.html#int"
                                                                                    title="(in Python v3.7)"><em>int</em></a>)
-                                                    – Number of iterative refinement steps when solving KKT equations
-                                                </p></li>
+                                                    – Number of iterative refinement steps when solving KKT equations,
+                                                    for Quadratic problem it is 0.</p></li>
                                             </ul>
                                         </dd>
                                         <dt class="field-even">Returns</dt>
@@ -246,8 +281,8 @@
 
                     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
 
-                        <a href="l1tf.get_tridiagonal_matrix.html" class="btn btn-neutral float-right"
-                           title="2. Tridiagonal matrix" accesskey="n" rel="next">Next <span
+                        <a href="l1tf.trend_segment.html" class="btn btn-neutral float-right"
+                           title="1. Result Extraction" accesskey="n" rel="next">Next <span
                                 class="fa fa-arrow-circle-right"></span></a>
 
 

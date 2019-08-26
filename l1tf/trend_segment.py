@@ -61,9 +61,8 @@ def get_result(trend, signal, change_points):
     for j in range(len(change_points) - 1):
         change_point_ind = change_points[j: j + 2]
         segment_result = TrendResult(change_point_ind, trend, signal)
-        segment_result.get_slope_intercept()
-        segment_result.get_segment_fit_result(signal)
-        list_result.append(vars(segment_result))
+        segment_result.eval_attributes()
+        list_result.append(segment_result)
     result_dict = {'segment_result': list_result, 'overall_mse': overall_mse}
     return result_dict
 
@@ -73,14 +72,26 @@ class TrendResult(object):
     This class instantiates an object will following attributes: slope, intercept, start, end, segment_trend, residual,
     y.
 
-    :ivar change_point_ind: Change point indices for particular segment
-    :vartype change_point_ind: :class:`numpy.ndarray`
+    :ivar slope: slope of the linear segment
+    :vartype slope: float
 
-    :ivar trend: Extracted L1 trend of signal
-    :vartype trend: :class:`numpy.ndarray`
+    :ivar intercept: intercept of the linear segment.
+    :vartype trend: float
 
-    :ivar signal: Original Signal
-    :vartype y: :class:`numpy.ndarray`
+    :ivar start: start index of the linear segment.
+    :vartype start: int
+
+    :ivar end: last index of the linear segment
+    :vartype end: int
+
+    :ivar segment_trend: extracted trend.
+    :vartype segment_trend: :class:`numpy.ndarray`
+
+    :ivar signal: values of signal for the segment
+    :vartype signal: :class:`numpy.ndarray`
+
+    :ivar residual: residue of fit for the segment
+    :vartype residual: float
     """
 
     @staticmethod
@@ -123,23 +134,18 @@ class TrendResult(object):
 
     def __init__(self, change_point_ind, trend, signal):
         self.check(change_point_ind, trend, signal)
+        self.start = change_point_ind[0]
+        self.end = change_point_ind[-1]
+        self.segment_trend = trend[self.start: self.end + 1]
+        self.signal = signal[self.start: self.end + 1]
         self.slope = None
         self.intercept = None
-        self.start = None
-        self.end = None
-        self.segment_trend = None
         self.segment_mse = None
         self.residual = None
-        self.signal = None
-        if self.start is None and self.end is None and self.segment_trend is None and self.signal is None:
-            self.start = change_point_ind[0]
-            self.end = change_point_ind[-1]
-            self.segment_trend = trend[self.start: self.end + 1]
-            self.signal = signal[self.start: self.end + 1]
 
-    def get_slope_intercept(self):
+    def eval_attributes(self):
         """
-        calculates slope and intercept and stores values in class object attribute : slope and intercept.
+        calculates specified attributes for the object.
 
         :return: Nothing
         :rtype: None
@@ -152,18 +158,6 @@ class TrendResult(object):
                 self.slope = np.inf
                 self.intercept = self.start
 
-    def get_segment_fit_result(self, signal):
-        """
-        Calculates residue and mean square error in a segment. It stores values in class object attribute : segment_mse
-        and residual
-
-        :param signal: Original Signal
-        :type signal: :class:`numpy.ndarray`
-
-        :return: Nothing
-        :rtype: None
-        """
         if self.segment_mse is None and self.residual is None:
-            self.segment_mse = np.sum(np.square(signal[self.start:self.end + 1]) - np.square(self.segment_trend)) / len(
-                self.segment_trend)
-            self.residual = np.sum(np.subtract(signal[self.start: self.end + 1], self.segment_trend))
+            self.segment_mse = np.sum(np.square(self.signal) - np.square(self.segment_trend)) / len(self.segment_trend)
+            self.residual = np.sum(np.subtract(self.signal, self.segment_trend))

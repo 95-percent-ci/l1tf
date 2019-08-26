@@ -7,7 +7,7 @@ Quick use scripts
 Usage of this package is relatively simple using the quick use initialization scripts which are provided as part of the
 package.
 
-A sample python script has been provided in the repository titled **L1_sample_main.py** along with sample data in
+A sample python script has been provided in the repository titled **l1_sample_main.py** along with sample data in
 directory **sample_data**.
 
 We shall delve into this file in detail in this section to understand how to use the package through this code snippet.
@@ -23,21 +23,16 @@ We shall delve into this file in detail in this section to understand how to use
 
     # importing packages #
 
-    import logging as logging
     import sys as sys
+    import logging as logging
     import numpy as np
-
 
     import l1tf.helpers as helper
     import l1tf.l1 as l1
-    import l1tf.trend_segment as ts
 
     __author__ = "nitesh@gyandata.com"
 
     LOGGER = logging.getLogger(__name__)
-    LOGGER.setLevel(logging.DEBUG)
-    stream_handler = logging.StreamHandler()
-    LOGGER.addHandler(stream_handler)
 
     if __name__ == '__main__':
 
@@ -52,15 +47,10 @@ We shall delve into this file in detail in this section to understand how to use
         # configure logger if logging information is provided
         if log_config_file:
             helper.config_logger(log_config_file)
-            LOGGER.info("Logging configuration changed successfully!")
 
         for signal_name, signal_df, run_config in helper.load_data(data_dir_fp, config_dir_fp):
-
             # converting signal into np.ndarray #
             signal = np.ravel(signal_df.values)
-
-            LOGGER.info("Performing L1 trend filtering for , {}".format(signal_name))
-
             lamda = run_config["lambda"]
             iter_max = run_config["max_iter"]
             abs_tol = run_config["absolute_tolerance"]
@@ -68,12 +58,10 @@ We shall delve into this file in detail in this section to understand how to use
             feas_tol = run_config["feasibility_tolerance"]
             refine = run_config["refine_required"]
             slope_tol = run_config["slope_tolerance"]
-
+            LOGGER.info("Initialising l1 trend filter for %s", signal_name)
             trend = l1.l1_trend(signal, lamda, iter_max, abs_tol, rel_tol, feas_tol, refine)
-            LOGGER.info("L1 trend filtering completed at given configuration for  , {}".format(signal_name))
-            cp = ts.extract_segment(trend, slope_tol)
-            ext_result = ts.get_result(trend, signal, cp)
-            stored_result.append(ext_result)
+            LOGGER.info("Process ended successfully")
+
 
 
 Initialization of helper functions
@@ -89,13 +77,13 @@ For example if one were to request for a help message like so
 
 .. code-block:: bash
 
-   $python3 L1_sample_main.py --help
+   $python3 l1_sample_main.py --help
 
 the following help message will be displayed
 
 .. code-block:: bash
 
-    usage: L1_sample_main.py [-h] --data_dir DATA_DIR --config_dir CONFIG_DIR
+    usage: l1_sample_main.py [-h] --data_dir DATA_DIR --config_dir CONFIG_DIR
                          [--log_config_file LOG_CONFIG_FILE]
 
     Demonstrates quick use of the package
@@ -123,7 +111,7 @@ An example of call code would look like this
 
 .. code-block:: bash
 
-    $ python3 L1_sample_main.py --data_dir="/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_data" --config_dir="/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_config"
+    $ python3 l1_sample_main.py --data_dir="/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_data" --config_dir="/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_config"
 
 
 Logger configuration .json
@@ -149,7 +137,7 @@ as a path to a logging configuration json file. For example in the json file pro
         }
       },
       "loggers"                 : {
-        "lqtf.helpers": {
+        "l1tf.helpers": {
           "level"   : "DEBUG",
           "propagate": false,
           "handlers": [
@@ -165,7 +153,7 @@ as a path to a logging configuration json file. For example in the json file pro
       }
     }
 
-the log-level for the logger present in the :py:mod:`l1tf.helpers` module has been set to level DEBUG.
+sets level for the logger present in the :py:mod:`l1tf.helpers` module has been set to level DEBUG.
 For a complete guide on python logging framework refer to the official documentation at
 `link <https://docs.python.org/3/library/logging.html>`_.
 
