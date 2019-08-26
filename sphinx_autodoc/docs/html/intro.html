@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>2. Introduction &mdash; L1 Trend Filtering for Trend Extraction 1.0.0 documentation</title>
+
+
+    <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+
+
+    <script type="text/javascript" id="documentation_options" data-url_root="./"
+            src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="next" title="3. Usage" href="quickuse.html"/>
+    <link rel="prev" title="1.2. On Windows" href="building_windows.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+
+
+<div class="wy-grid-for-nav">
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home"> L1 Trend Filtering for Trend Extraction
+
+
+                    <img src="_static/gdpl.png" class="logo" alt="Logo"/>
+
+                </a>
+
+
+                <div class="version">
+                    1.0
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
+                <p class="caption"><span class="caption-text">Contents</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="building.html">1. Build &amp;
+                        Installation</a></li>
+                    <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Introduction</a>
+                        <ul>
+                            <li class="toctree-l2"><a class="reference internal" href="#id1">2.1. Introduction</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="#implementation">2.2.
+                                Implementation</a></li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="quickuse.html">3. Usage</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">L1 Trend Filtering</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.l1.html">1. L1 Trend Filtering</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.get_tridiagonal_matrix.html">2.
+                        Tridiagonal matrix</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Helper Functions</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
+                        Extraction</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Initialisation</a>
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+
+        <nav class="wy-nav-top" aria-label="top navigation">
+
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">L1 Trend Filtering for Trend Extraction</a>
+
+        </nav>
+
+
+        <div class="wy-nav-content">
+
+            <div class="rst-content style-external-links">
+
+
+                <div role="navigation" aria-label="breadcrumbs navigation">
+
+                    <ul class="wy-breadcrumbs">
+
+                        <li><a href="index.html">Docs</a> &raquo;</li>
+
+                        <li>2. Introduction</li>
+
+
+                        <li class="wy-breadcrumbs-aside">
+
+
+                            <a href="_sources/intro.rst.txt" rel="nofollow"> View page source</a>
+
+
+                        </li>
+
+                    </ul>
+
+
+                    <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+
+                        <a href="quickuse.html" class="btn btn-neutral float-right" title="3. Usage" accesskey="n">Next
+                            <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a href="building_windows.html" class="btn btn-neutral float-left" title="1.2. On Windows"
+                           accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <div class="section" id="introduction">
+                            <h1>2. Introduction<a class="headerlink" href="#introduction"
+                                                  title="Permalink to this headline">¶</a></h1>
+                            <div class="section" id="id1">
+                                <h2>2.1. Introduction<a class="headerlink" href="#id1"
+                                                        title="Permalink to this headline">¶</a></h2>
+                                <p>Estimation of underlying trends in time series data is useful in a variety of
+                                    disciplines ( econometrics, process
+                                    control engineering etc). <img class="math"
+                                                                   src="_images/math/404321749c85f9ab42e8ef34944d48de20b0cdb8.png"
+                                                                   alt="l_1"/> trend filtering is a novel method of
+                                    extracting trends from a time series data. It substitutes sum of
+                                    squares penalization term used in Hodrick-Prescott(H-P) Filtering by a sum of
+                                    absolute values(i.e., an <img class="math"
+                                                                  src="_images/math/404321749c85f9ab42e8ef34944d48de20b0cdb8.png"
+                                                                  alt="l_1"/> norm). This
+                                    produces trend estimates that are piecewise linear. Changes in slope in extracted
+                                    trend can aid in extracting underlying
+                                    steady state condition in the signal. Mathematically it tries minimize following
+                                    objective function.</p>
+                                <div class="math">
+                                    <p><img src="_images/math/f78df2a5da30fd1e36f8b0f7bc31f4a88adbe478.png"
+                                            alt="(1/2)\sum_{t=1}^{n}(y_t - x_t)^2 + \lambda \sum_{t=1}^{n}|x_{t-1} - 2x_t + x_{t+1}|"/>
+                                    </p>
+                                </div>
+                                <p>Where <img class="math"
+                                              src="_images/math/6c1989a1ef2e7f86dbe4a9e6c12b7741981d8766.png"
+                                              alt="\lambda"/> is a nonnegative parameter used to control the trade-off
+                                    between smoothness of <img class="math"
+                                                               src="_images/math/b063dea9fb0ba4c75d66b2c8060b5e704ca98457.png"
+                                                               alt="x"/> and
+                                    size of the residual. Same objective could also be written as</p>
+                                <div class="math">
+                                    <p><img src="_images/math/e68aef04f0e40c09362eb2c65e60c633ef450c0b.png"
+                                            alt="(1/2)||y-x||_2^2  + \lambda ||Dx||_1"/></p>
+                                </div>
+                                <p>where <img class="math"
+                                              src="_images/math/658e74bb2fb5ffbfce23d502f67b2b09bd3e101e.png" alt="D"/>
+                                    <img class="math" src="_images/math/1794c3070ad8e8e0e2b66850392e6fb1318e77e0.png"
+                                         alt="\in R^{(n-2)\times n}"/> is the second order difference matrix</p>
+                                <div class="math">
+                                    <p><img src="_images/math/102a6cb7cec3d96916988df2e9b8e5b39bb5cca6.png" alt="\begin{bmatrix}
+1 &amp; -2 &amp; 1 &amp; \cdots &amp; \cdots &amp; \cdots &amp; \cdots &amp; 0\\
+0 &amp; 1 &amp; -2 &amp; 1 &amp; &amp; &amp; &amp; \vdots\\
+0 &amp; 0 &amp; 1 &amp; -2 &amp; \ddots &amp; &amp; &amp; \vdots\\
+\vdots &amp; 0 &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; &amp; \vdots\\
+\vdots &amp; &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; 1 &amp; \vdots\\
+0 &amp; &amp; &amp; \ddots &amp; \ddots &amp; 1 &amp; -2 &amp; 1\\
+\end{bmatrix}"/></p>
+                                </div>
+                                <p>The Lagrangian turns out be</p>
+                                <div class="math">
+                                    <p><img src="_images/math/89116c4f6fd6ffdb510ae776f76f7360ee3ea6a9.png"
+                                            alt="(1/2)||y-x||_2^2  + \lambda ||z||_1 + \nu^T(Dx - z)"/></p>
+                                </div>
+                                <p>where <img class="math"
+                                              src="_images/math/5e94befac198579a6a2f1f2d93bcf645f3bf34d2.png" alt="z"/>
+                                    = <img class="math" src="_images/math/d3ba34cebe7ac9bb2719b5763aec9da4b4aef794.png"
+                                           alt="Dx"/>. The dual of lagrangian is a convex quadratic program and it is
+                                    given by</p>
+                                <div class="math">
+                                    <p><img src="_images/math/eda45b702ba89d414985fa2dbebf3ae67bcfbaf4.png"
+                                            alt="g(\nu) = (1/2)\nu^T DD^T \nu - y^T D^T \nu"/></p>
+                                </div>
+                                <p>subjected to</p>
+                                <div class="math">
+                                    <p><img src="_images/math/92ed2800c56feeb70082097540a880d7331566b2.png"
+                                            alt="-\lambda \leq \nu \leq  \lambda"/></p>
+                                </div>
+                                <p>The solution <img class="math"
+                                                     src="_images/math/0bce029f3819108d5652d3bf6db513ffdb71eaf2.png"
+                                                     alt="\nu^{lt}"/> of the dual, <img class="math"
+                                                                                        src="_images/math/404321749c85f9ab42e8ef34944d48de20b0cdb8.png"
+                                                                                        alt="l_1"/> trend estimate can
+                                    be estimated via</p>
+                                <div class="math">
+                                    <p><img src="_images/math/04dd82d217238c3c1323d9bfcba5beb9499a26d1.png"
+                                            alt="x^{lt} = y - D^T v^{lt}"/></p>
+                                </div>
+                            </div>
+                            <div class="section" id="implementation">
+                                <h2>2.2. Implementation<a class="headerlink" href="#implementation"
+                                                          title="Permalink to this headline">¶</a></h2>
+                                <p>CVXOPT ( Python Software For Convex Optimization ) is used directly for solving
+                                    quadratic programming.
+                                    <code class="xref py py-class docutils literal notranslate"><span class="pre">cvxopt.solvers.qp</span></code>
+                                    is for solving the dual formulation. It solves
+                                    quadratic program of form</p>
+                                <div class="math">
+                                    <p><img src="_images/math/fae770950607152a43c97c5d8588c6aee31ee3a2.png" alt="minimize :(1/2)x^T P x + q^T x
+
+constraint : Gx \leq h
+
+Ax = b"/></p>
+                                </div>
+                                <p>where</p>
+                                <div class="math">
+                                    <p><img src="_images/math/52209ff33ec31c0ba6af645809751477f3538f2f.png"
+                                            alt="P = DD^T, q = -D y"/></p>
+                                </div>
+                                <p>and</p>
+                                <div class="math">
+                                    <p><img src="_images/math/0d83a51a0251bfd0d77f456fde82601da95788e8.png" alt="G = \begin{bmatrix}
+    1 &amp; 1 &amp; \cdots &amp; 1 \\
+    1 &amp; 1 &amp; \cdots &amp;  1 \\
+    1 &amp; 1 &amp; \cdots &amp;  1 \\
+    \vdots &amp; \vdots &amp;  \vdots &amp; \vdots \\
+    -1 &amp; -1 &amp; \cdots &amp;  -1 \\
+    -1 &amp; -1 &amp; \cdots &amp; -1 \\
+    -1 &amp; -1 &amp; \cdots &amp; -1 \\
+    \end{bmatrix}_{2(n-2) \times (n-2)}
+    h = \begin{bmatrix}
+        \lambda \\
+        \lambda \\
+        \lambda \\
+        \vdots \\
+        \lambda\\
+        \lambda \\
+        \lambda \\
+        \end{bmatrix}_{2(n-2) \times 1}"/></p>
+                                </div>
+                                <div class="math">
+                                    <p><img src="_images/math/bdc2e2f120aff594d6ed42391e4f420b12661d47.png"
+                                            alt="G[:n-2,:] = 1, G[n-2:,:] = -1"/></p>
+                                </div>
+                                <p>The user is requested to go through CVXOPT documentation <a
+                                        class="reference external" href="https://cvxopt.org/userguide/index.html">CVXOPT
+                                    documentation</a>
+                                    for better understanding.</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <footer>
+
+                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+
+                        <a href="quickuse.html" class="btn btn-neutral float-right" title="3. Usage" accesskey="n"
+                           rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a href="building_windows.html" class="btn btn-neutral float-left" title="1.2. On Windows"
+                           accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2019, GyanData Pvt. Ltd.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+
+</script>
+
+
+</body>
+</html>

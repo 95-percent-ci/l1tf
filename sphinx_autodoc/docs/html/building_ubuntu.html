@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>1.1. On Ubuntu &mdash; L1 Trend Filtering for Trend Extraction 1.0.0 documentation</title>
+
+
+    <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+
+
+    <script type="text/javascript" id="documentation_options" data-url_root="./"
+            src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="next" title="1.2. On Windows" href="building_windows.html"/>
+    <link rel="prev" title="1. Build &amp; Installation" href="building.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+
+
+<div class="wy-grid-for-nav">
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home"> L1 Trend Filtering for Trend Extraction
+
+
+                    <img src="_static/gdpl.png" class="logo" alt="Logo"/>
+
+                </a>
+
+
+                <div class="version">
+                    1.0
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
+                <p class="caption"><span class="caption-text">Contents</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal" href="building.html">1. Build &amp;
+                        Installation</a>
+                        <ul class="current">
+                            <li class="toctree-l2 current"><a class="current reference internal" href="#">1.1. On
+                                Ubuntu</a>
+                                <ul>
+                                    <li class="toctree-l3"><a class="reference internal" href="#setting-up-python">1.1.1.
+                                        Setting up Python</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="#setting-up-pip">1.1.2.
+                                        Setting up Pip</a></li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#setting-up-virtual-environment">1.1.3. Setting up
+                                        Virtual-Environment</a></li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#cloning-your-repository">1.1.4. Cloning your
+                                        repository</a></li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#installing-dependencies-required-for-building">1.1.5.
+                                        Installing dependencies required for building</a></li>
+                                    <li class="toctree-l3"><a class="reference internal" href="#building-the-project">1.1.6.
+                                        Building the project</a></li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#running-tests-on-the-package">1.1.7. Running tests
+                                        on the package</a></li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#building-the-documentation">1.1.8. Building the
+                                        documentation</a></li>
+                                    <li class="toctree-l3"><a class="reference internal"
+                                                              href="#using-the-built-wheel-file-in-another-project">1.1.9.
+                                        Using the built wheel file in another project</a></li>
+                                </ul>
+                            </li>
+                            <li class="toctree-l2"><a class="reference internal" href="building_windows.html">1.2. On
+                                Windows</a></li>
+                        </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">L1 Trend Filtering</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.l1.html">1. L1 Trend Filtering</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Helper Functions</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
+                        Extraction</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.Tridiagonal_matrix.html">2.
+                        Tridiagonal matrix</a></li>
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+
+        <nav class="wy-nav-top" aria-label="top navigation">
+
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">L1 Trend Filtering for Trend Extraction</a>
+
+        </nav>
+
+
+        <div class="wy-nav-content">
+
+            <div class="rst-content style-external-links">
+
+
+                <div role="navigation" aria-label="breadcrumbs navigation">
+
+                    <ul class="wy-breadcrumbs">
+
+                        <li><a href="index.html">Docs</a> &raquo;</li>
+
+                        <li><a href="building.html">1. Build &amp; Installation</a> &raquo;</li>
+
+                        <li>1.1. On Ubuntu</li>
+
+
+                        <li class="wy-breadcrumbs-aside">
+
+
+                            <a href="_sources/building_ubuntu.rst.txt" rel="nofollow"> View page source</a>
+
+
+                        </li>
+
+                    </ul>
+
+
+                    <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+
+                        <a href="building_windows.html" class="btn btn-neutral float-right" title="1.2. On Windows"
+                           accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a href="building.html" class="btn btn-neutral float-left" title="1. Build &amp; Installation"
+                           accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <div class="section" id="on-ubuntu">
+                            <h1>1.1. On Ubuntu<a class="headerlink" href="#on-ubuntu"
+                                                 title="Permalink to this headline">¶</a></h1>
+                            <p>The following instructions are for Ubuntu 16.04 LTS. For your Ubuntu installation the
+                                versions might vary.</p>
+                            <div class="section" id="setting-up-python">
+                                <h2>1.1.1. Setting up Python<a class="headerlink" href="#setting-up-python"
+                                                               title="Permalink to this headline">¶</a></h2>
+                                <p>Ensure that you have python 3.5 or above installed on your machine. In case you do
+                                    not have it installed
+                                    execute the following command in a terminal to install it</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ sudo apt-get install python3.5
+</pre>
+                                    </div>
+                                </div>
+                                <p>You can verify your python installation by typing the following command in the
+                                    terminal</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ python3.5 --version
+</pre>
+                                    </div>
+                                </div>
+                                <p>and it should print out the python version as shown below</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>Python <span class="m">3</span>.5.2
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section" id="setting-up-pip">
+                                <h2>1.1.2. Setting up Pip<a class="headerlink" href="#setting-up-pip"
+                                                            title="Permalink to this headline">¶</a></h2>
+                                <p>Once it has been installed you should install python’s dependency manager pip by
+                                    executing the following command in a
+                                    terminal</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip
+</pre>
+                                    </div>
+                                </div>
+                                <p>As with python you can verify your pip installation by typing</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ pip3 --version
+</pre>
+                                    </div>
+                                </div>
+                                <p>and it should print the version of pip that has been installed. Note the python
+                                    version it points to, it should be
+                                    python 3.5 or greater</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>pip <span class="m">9</span>.0.1 from /usr/local/lib/python3.5/dist-packages <span
+                                            class="o">(</span>python <span class="m">3</span>.5<span class="o">)</span>
+</pre>
+                                    </div>
+                                </div>
+                                <p>In some scenarios one might want to upgrade pip itself, in which case execute the
+                                    following command</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ sudo pip3 install --upgrade pip
+</pre>
+                                    </div>
+                                </div>
+                                <p>which will download and upgrade your pip to the latest version</p>
+                            </div>
+                            <div class="section" id="setting-up-virtual-environment">
+                                <h2>1.1.3. Setting up Virtual-Environment<a class="headerlink"
+                                                                            href="#setting-up-virtual-environment"
+                                                                            title="Permalink to this headline">¶</a>
+                                </h2>
+                                <p>Since we want the build to not affect our primary python installation on the machine,
+                                    a virtual environment needs to be
+                                    created. Starting from python 3.5 python on Ubuntu ships with the virtual
+                                    environment tool which makes our lives easy.</p>
+                                <p>First create a directory which is where we will be performing the build.</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ mkdir L1_Trend_Filtering_build
+</pre>
+                                    </div>
+                                </div>
+                                <p>Now move into it</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ <span class="nb">cd</span> L1_Trend_Filtering_build
+</pre>
+                                    </div>
+                                </div>
+                                <p>Here create a virtual environment called <strong>L1_Trend_Filtering_venv</strong> by
+                                    executing the following command</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ python3.5 -m venv L1_Trend_Filtering_venv
+</pre>
+                                    </div>
+                                </div>
+                                <p>This will create an environment called L1_Trend_Filtering_venv containing the
+                                    necessary packages for the virtual environment to
+                                    function</p>
+                                <p>We now activate the virtual environment by executing the activate script</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ . ./L1_Trend_Filtering_venv/bin/activate
+</pre>
+                                    </div>
+                                </div>
+                                <p>You will now notice that your bash shell displays the name of the virtual
+                                    environment.
+                                    The following steps will be performed from within the virtual environment</p>
+                            </div>
+                            <div class="section" id="cloning-your-repository">
+                                <h2>1.1.4. Cloning your repository<a class="headerlink" href="#cloning-your-repository"
+                                                                     title="Permalink to this headline">¶</a></h2>
+                                <p>In order to clone the repository you need to have git installed on your system. This
+                                    can be done by executing the
+                                    following command</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ sudo apt-get install git
+</pre>
+                                    </div>
+                                </div>
+                                <p>We can check if the installation succeeded by executing</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ git --version
+</pre>
+                                    </div>
+                                </div>
+                                <p>which will print out your git version</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>git version <span class="m">2</span>.7.4
+</pre>
+                                    </div>
+                                </div>
+                                <p>Now clone your repository with the following command</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ git clone &lt;https-link-to-repository&gt;
+</pre>
+                                    </div>
+                                </div>
+                                <p>where you need to replace &lt;https-link-to-repository&gt; with the link of this
+                                    repository. This will clone the project and
+                                    create a directory containing the project source. At this juncture if you had
+                                    followed all the steps you should have the
+                                    following directories in your L1_Trend_Filtering_build directory</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>L1_Trend_Filtering  L1_Trend_Filtering_venv
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section" id="installing-dependencies-required-for-building">
+                                <h2>1.1.5. Installing dependencies required for building<a class="headerlink"
+                                                                                           href="#installing-dependencies-required-for-building"
+                                                                                           title="Permalink to this headline">¶</a>
+                                </h2>
+                                <p>Navigate into the L1_Trend_Filtering directory. Here you will find a requirements.txt
+                                    file which contains all the dependencies
+                                    required for building the project into a wheel (.whl) file. You have to install
+                                    these dependencies into the
+                                    virtual-environment by executing</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ pip3 install -r requirements.txt
+</pre>
+                                    </div>
+                                </div>
+                                <p>This will download the required dependencies from pypi index. Also ensure you have
+                                    the latest version of setuptools
+                                    installed within this virtual-environment by upgrading it</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ pip3 install setuptools --upgrade
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section" id="building-the-project">
+                                <h2>1.1.6. Building the project<a class="headerlink" href="#building-the-project"
+                                                                  title="Permalink to this headline">¶</a></h2>
+                                <p>In the same L1_Trend_Filtering directory, you will also find a build_wheel.sh shell
+                                    script. Just execute this shell script and
+                                    the wheel file will be built for you</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ ./build_wheel.sh
+</pre>
+                                    </div>
+                                </div>
+                                <p>This causes a directory called <strong>dist</strong> to be created which contains the
+                                    final wheel(.whl) file which can then be used to
+                                    install this package in other projects</p>
+                            </div>
+                            <div class="section" id="running-tests-on-the-package">
+                                <h2>1.1.7. Running tests on the package<a class="headerlink"
+                                                                          href="#running-tests-on-the-package"
+                                                                          title="Permalink to this headline">¶</a></h2>
+                                <p>If you wish to run the test suite on the built package you can use tox which has been
+                                    integrated into the project.
+                                    Just execute the following command</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ tox
+</pre>
+                                    </div>
+                                </div>
+                                <p>and it will create the package in an isolated virtual-environment and run the entire
+                                    test suite. The test report will be
+                                    dumped as a html file in the directory <strong>test_report</strong> under the
+                                    <strong>tests</strong> directory. The coverage data and report will
+                                    be dumped as several html files into the directory <strong>coverage_report</strong>
+                                    under <strong>tests</strong> directory.</p>
+                            </div>
+                            <div class="section" id="building-the-documentation">
+                                <h2>1.1.8. Building the documentation<a class="headerlink"
+                                                                        href="#building-the-documentation"
+                                                                        title="Permalink to this headline">¶</a></h2>
+                                <p>Navigate into the sphinx_autodoc directory</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ <span class="nb">cd</span> sphinx_autodoc
+</pre>
+                                    </div>
+                                </div>
+                                <p>Here execute the shell script <strong>create_rst.sh</strong> to create .rst files
+                                    from the code docstrings. These will be placed
+                                    within the source folder.</p>
+                                <p>Once the .rst files have been created execute the following command to create html
+                                    help files</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ make html
+</pre>
+                                    </div>
+                                </div>
+                                <p>The created html files are present in a directory named <strong>html</strong> under a
+                                    directory called <strong>docs</strong> within the
+                                    <strong>sphinx_autodoc</strong> directory</p>
+                            </div>
+                            <div class="section" id="using-the-built-wheel-file-in-another-project">
+                                <h2>1.1.9. Using the built wheel file in another project<a class="headerlink"
+                                                                                           href="#using-the-built-wheel-file-in-another-project"
+                                                                                           title="Permalink to this headline">¶</a>
+                                </h2>
+                                <p>In order to use the wheel file in another project as a dependency, in the project
+                                    virtual-environment execute the
+                                    following command</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ pip3 install &lt;path-to-wheel-file&gt;
+</pre>
+                                    </div>
+                                </div>
+                                <p>where you have to replace the &lt;path-to-wheel-file&gt; with the fully qualified
+                                    path to where you have stored your wheel
+                                    file</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <footer>
+
+                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+
+                        <a href="building_windows.html" class="btn btn-neutral float-right" title="1.2. On Windows"
+                           accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a href="building.html" class="btn btn-neutral float-left" title="1. Build &amp; Installation"
+                           accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2019, GyanData Pvt. Ltd.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+
+</script>
+
+
+</body>
+</html>

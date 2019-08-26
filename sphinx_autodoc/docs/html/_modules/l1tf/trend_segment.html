@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>l1tf.trend_segment &mdash; L1 Trend Filtering for Trend Extraction 1.0.0 documentation</title>
+
+
+    <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+
+
+    <script type="text/javascript" id="documentation_options" data-url_root="../../"
+            src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css"/>
+    <link rel="index" title="Index" href="../../genindex.html"/>
+    <link rel="search" title="Search" href="../../search.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+
+
+<div class="wy-grid-for-nav">
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="../../index.html" class="icon icon-home"> L1 Trend Filtering for Trend Extraction
+
+
+                    <img src="../../_static/gdpl.png" class="logo" alt="Logo"/>
+
+                </a>
+
+
+                <div class="version">
+                    1.0
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
+                <p class="caption"><span class="caption-text">Contents</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../building.html">1. Build &amp;
+                        Installation</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../intro.html">2. Introduction</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../quickuse.html">3. Usage</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Algorithm code</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.l1.html">1. L1 Trend
+                        Filtering</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.get_tridiagonal_matrix.html">2.
+                        Tridiagonal matrix</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Helper Functions</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.trend_segment.html">1. Result
+                        Extraction</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.helpers.html">2. Commandline
+                        Initialization</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Message keys</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.help_msg.html">1. HELP MESSAGE
+                        KEYS</a></li>
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+
+        <nav class="wy-nav-top" aria-label="top navigation">
+
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../index.html">L1 Trend Filtering for Trend Extraction</a>
+
+        </nav>
+
+
+        <div class="wy-nav-content">
+
+            <div class="rst-content style-external-links">
+
+
+                <div role="navigation" aria-label="breadcrumbs navigation">
+
+                    <ul class="wy-breadcrumbs">
+
+                        <li><a href="../../index.html">Docs</a> &raquo;</li>
+
+                        <li><a href="../index.html">Module code</a> &raquo;</li>
+
+                        <li>l1tf.trend_segment</li>
+
+
+                        <li class="wy-breadcrumbs-aside">
+
+                        </li>
+
+                    </ul>
+
+
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <h1>Source code for l1tf.trend_segment</h1>
+                        <div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Result Extraction</span>
+<span class="sd">=====================</span>
+
+<span class="sd">Functions defined here are used to extract all the linear segment once L1 trend is computed.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="extract_segment"><a class="viewcode-back"
+                                                    href="../../l1tf.trend_segment.html#l1tf.trend_segment.extract_segment">[docs]</a><span
+        class="k">def</span> <span class="nf">extract_segment</span><span class="p">(</span><span class="n">trend</span><span
+        class="p">,</span> <span class="n">slope_tol</span><span class="o">=</span><span class="mf">1e-6</span><span
+        class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function extracts segments of trend which have the same slope</span>
+
+<span class="sd">    :param trend: trend of the signal</span>
+<span class="sd">    :type trend: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :param slope_tol: Required Tolerance for calculation of slope</span>
+<span class="sd">    :type slope_tol: float</span>
+
+<span class="sd">    :return: Change points in the extracted trend</span>
+<span class="sd">    :rtype: :class:`numpy.ndarray`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">second_difference</span> <span class="o">=</span> <span class="n">np</span><span
+            class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span
+            class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">trend</span><span
+            class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">change_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">ravel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span
+            class="n">where</span><span class="p">(</span><span class="n">second_difference</span> <span
+            class="o">&gt;</span> <span class="n">slope_tol</span><span class="p">))</span>
+    <span class="n">change_points</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">concatenate</span><span class="p">(([</span><span class="mi">0</span><span
+            class="p">],</span> <span class="n">change_points</span><span class="p">,</span> <span
+            class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">trend</span><span
+            class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="get_result"><a class="viewcode-back"
+                                               href="../../l1tf.trend_segment.html#l1tf.trend_segment.get_result">[docs]</a><span
+        class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="n">trend</span><span
+        class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span
+        class="n">change_points</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function returns fit results for each segment. Values for each segment are stored in a list.</span>
+
+<span class="sd">    :param trend: L1 trend of signal</span>
+<span class="sd">    :type trend: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :param signal: Signal</span>
+<span class="sd">    :type signal: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :param change_points: change points in the extracted trend</span>
+<span class="sd">    :type change_points: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :return: A tuple of dictionary,where</span>
+
+<span class="sd">            * in the first element</span>
+
+<span class="sd">                * key is &#39;segment_result&#39;</span>
+<span class="sd">                * values are stored in a list. Each list element is of :class:`l1tf.trend_segment.TrendResult` datatype.</span>
+
+<span class="sd">            * in the second element</span>
+
+<span class="sd">                * key is &#39;overall_mse&#39;</span>
+<span class="sd">                * stores total mean square error between the trend and the signal.</span>
+
+
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">list_result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">overall_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span
+            class="n">square</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span> <span
+            class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span
+            class="p">(</span><span class="n">trend</span><span class="p">))</span> <span class="o">/</span> <span
+            class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span
+            class="p">(</span><span class="nb">len</span><span class="p">(</span><span
+            class="n">change_points</span><span class="p">)</span> <span class="o">-</span> <span
+            class="mi">1</span><span class="p">):</span>
+        <span class="n">change_point_ind</span> <span class="o">=</span> <span class="n">change_points</span><span
+            class="p">[</span><span class="n">j</span><span class="p">:</span> <span class="n">j</span> <span class="o">+</span> <span
+            class="mi">2</span><span class="p">]</span>
+        <span class="n">segment_result</span> <span class="o">=</span> <span class="n">TrendResult</span><span
+            class="p">(</span><span class="n">change_point_ind</span><span class="p">,</span> <span
+            class="n">trend</span><span class="p">,</span> <span class="n">signal</span><span class="p">)</span>
+        <span class="n">segment_result</span><span class="o">.</span><span class="n">get_slope_intercept</span><span
+            class="p">()</span>
+        <span class="n">segment_result</span><span class="o">.</span><span class="n">get_segment_fit_result</span><span
+            class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="n">list_result</span><span class="o">.</span><span class="n">append</span><span
+            class="p">(</span><span class="nb">vars</span><span class="p">(</span><span
+            class="n">segment_result</span><span class="p">))</span>
+    <span class="n">result_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;segment_result&#39;</span><span
+            class="p">:</span> <span class="n">list_result</span><span class="p">,</span> <span class="s1">&#39;overall_mse&#39;</span><span
+            class="p">:</span> <span class="n">overall_mse</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">result_dict</span></div>
+
+
+<div class="viewcode-block" id="TrendResult"><a class="viewcode-back"
+                                                href="../../l1tf.trend_segment.html#l1tf.trend_segment.TrendResult">[docs]</a><span
+        class="k">class</span> <span class="nc">TrendResult</span><span class="p">(</span><span class="nb">object</span><span
+        class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class instantiates an object will following attributes: slope, intercept, start, end, segment_trend, residual,</span>
+<span class="sd">    y.</span>
+
+<span class="sd">    :ivar change_point_ind: Change point indices for particular segment</span>
+<span class="sd">    :vartype change_point_ind: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :ivar trend: Extracted L1 trend of signal</span>
+<span class="sd">    :vartype trend: :class:`numpy.ndarray`</span>
+
+<span class="sd">    :ivar signal: Original Signal</span>
+<span class="sd">    :vartype y: :class:`numpy.ndarray`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TrendResult.check"><a class="viewcode-back"
+                                                      href="../../l1tf.trend_segment.html#l1tf.trend_segment.TrendResult.check">[docs]</a>    <span
+        class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span
+            class="n">change_point_ind</span><span class="p">,</span> <span class="n">trend</span><span
+            class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to check for valid inputs.</span>
+
+<span class="sd">        :param change_point_ind: change point indices for particular segment</span>
+<span class="sd">        :type change_point_ind: :class:`numpy.ndarray`</span>
+
+<span class="sd">        :param trend: Extracted L1 trend of signal</span>
+<span class="sd">        :type trend: :class:`numpy.ndarray`</span>
+
+<span class="sd">        :param signal: Original Signal</span>
+<span class="sd">        :type signal: :class:`numpy.ndarray`</span>
+
+<span class="sd">        :return: Nothing</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">((</span><span
+            class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span
+            class="p">(</span><span class="n">signal</span><span class="p">),</span> <span class="n">np</span><span
+            class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="nb">issubclass</span><span
+            class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">trend</span><span
+            class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span
+            class="p">))):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Signal or Trend is not of type &#39;numpy.ndarray&#39;&quot;</span><span
+            class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">((</span><span
+            class="n">signal</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span
+            class="s1">&#39;float64&#39;</span><span class="p">,</span> <span class="n">trend</span><span
+            class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span
+            class="s1">&#39;float64&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Signal or trend is not of data type &#39;np.float64&#39;&quot;</span><span
+            class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span
+            class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span
+            class="p">(</span><span class="n">signal</span><span class="p">))</span> <span class="ow">or</span> <span
+            class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span
+            class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span
+            class="n">trend</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span
+            class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Signal or trend should not have inf values&quot;</span><span
+            class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span
+            class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span
+            class="p">(</span><span class="n">signal</span><span class="p">))</span> <span class="o">&gt;</span> <span
+            class="mi">0</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span
+            class="n">isnan</span><span class="p">(</span><span class="n">trend</span><span class="p">))</span> <span
+            class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Signal or trend should not have NaN values&quot;</span><span
+            class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span
+            class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">iscomplex</span><span
+            class="p">(</span><span class="n">signal</span><span class="p">))</span> <span class="o">&gt;</span> <span
+            class="mi">0</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span
+            class="n">iscomplex</span><span class="p">(</span><span class="n">trend</span><span
+            class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Signal or trend should not have imaginary values&quot;</span><span
+            class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span
+            class="nb">type</span><span class="p">(</span><span class="n">change_point_ind</span><span
+            class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span
+            class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Change points is not of the type &#39;numpy.ndarray&#39;&quot;</span><span
+            class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span
+            class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span
+            class="p">(</span><span class="n">change_point_ind</span><span class="p">))</span> <span
+            class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">np</span><span
+            class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span
+            class="o">.</span><span class="n">isinf</span><span class="p">(</span><span
+            class="n">change_point_ind</span><span class="p">))</span> <span class="o">&gt;</span> <span
+            class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot; Change point should not contain nan or inf values &quot;</span><span
+            class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">,</span> <span class="n">change_point_ind</span><span class="p">,</span> <span
+            class="n">trend</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span
+            class="n">change_point_ind</span><span class="p">,</span> <span class="n">trend</span><span
+            class="p">,</span> <span class="n">signal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span class="o">=</span> <span
+            class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span
+            class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span
+            class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span
+            class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span> <span
+            class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">segment_mse</span> <span class="o">=</span> <span
+            class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span
+            class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span class="o">=</span> <span
+            class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span
+            class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span
+            class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span> <span class="ow">is</span> <span class="kc">None</span> <span
+            class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">signal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span
+            class="o">=</span> <span class="n">change_point_ind</span><span class="p">[</span><span
+            class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span
+            class="o">=</span> <span class="n">change_point_ind</span><span class="p">[</span><span
+            class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span> <span
+            class="o">=</span> <span class="n">trend</span><span class="p">[</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">start</span><span class="p">:</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span
+            class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signal</span> <span
+            class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">start</span><span class="p">:</span> <span class="bp">self</span><span
+            class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span
+            class="p">]</span>
+
+<div class="viewcode-block" id="TrendResult.get_slope_intercept"><a class="viewcode-back"
+                                                                    href="../../l1tf.trend_segment.html#l1tf.trend_segment.TrendResult.get_slope_intercept">[docs]</a>    <span
+        class="k">def</span> <span class="nf">get_slope_intercept</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        calculates slope and intercept and stores values in class object attribute : slope and intercept.</span>
+
+<span class="sd">        :return: Nothing</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span
+            class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span
+            class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">isinf</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span
+            class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span><span class="p">[</span><span class="mi">0</span><span
+            class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span
+            class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span
+            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span
+            class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">slope</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">end</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span
+            class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span
+            class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span></div>
+
+<div class="viewcode-block" id="TrendResult.get_segment_fit_result"><a class="viewcode-back"
+                                                                       href="../../l1tf.trend_segment.html#l1tf.trend_segment.TrendResult.get_segment_fit_result">[docs]</a>    <span
+        class="k">def</span> <span class="nf">get_segment_fit_result</span><span class="p">(</span><span
+        class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates residue and mean square error in a segment. It stores values in class object attribute : segment_mse</span>
+<span class="sd">        and residual</span>
+
+<span class="sd">        :param signal: Original Signal</span>
+<span class="sd">        :type signal: :class:`numpy.ndarray`</span>
+
+<span class="sd">        :return: Nothing</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_mse</span> <span
+            class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span
+            class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">segment_mse</span> <span
+            class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span
+            class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span
+            class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">start</span><span class="p">:</span><span class="bp">self</span><span
+            class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span
+            class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span
+            class="n">square</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">segment_trend</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span
+            class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span
+            class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span
+            class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span
+            class="n">signal</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span
+            class="n">start</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span
+            class="bp">self</span><span class="o">.</span><span class="n">segment_trend</span><span class="p">))</span></div></div>
+</pre>
+                        </div>
+
+                    </div>
+
+                </div>
+                <footer>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2019, GyanData Pvt. Ltd.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+
+</script>
+
+
+</body>
+</html>

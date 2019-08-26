@@ -1,0 +1,4 @@
+.. automodule:: l1tf.Tridiagonal_matrix
+   :members:
+   :undoc-members:
+   :show-inheritance:

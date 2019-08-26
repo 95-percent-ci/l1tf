@@ -1,0 +1,42 @@
+ Git-ignore file for the project
+
+# IDE specific ignore
+**/.idea/**
+
+# Ignore compiled python files .pyc .pyo .pyd
+*.py[cod]
+
+# Ignore any log files
+*.log
+
+# Ignore pytest cache directory
+**/.cache/**
+**/.pytest_cache/**
+
+
+# Ignore build and distribution directories
+**/build/**
+**/dist/**
+
+# Ignore egg-info directory
+**/*.egg-info/**
+
+# Ignore .eggs directory (created when running the test-suite)
+**/*.eggs/**
+
+# Ignore test-reports (but keep the .gitkeep file to maintain folder structure)
+**/tests/test_report/*.html
+
+# Ignore coverage reports (but keep the .gitkeep file to maintain folder structure)
+**/tests/coverage_report/*.html
+**/tests/coverage_report/*.js
+**/tests/coverage_report/*.png
+**/tests/coverage_report/*.css
+**/tests/coverage_report/*.json
+**/tests/coverage_report/coverage_data_file/coverage
+
+# Ignore tox directory
+**/.tox/**
+
+# Ignore linter report
+*linter_output.txt

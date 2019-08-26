@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>l1tf.helpers &mdash; L1 Trend Filtering for Trend Extraction 1.0.0 documentation</title>
+
+
+    <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+
+
+    <script type="text/javascript" id="documentation_options" data-url_root="../../"
+            src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css"/>
+    <link rel="index" title="Index" href="../../genindex.html"/>
+    <link rel="search" title="Search" href="../../search.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+
+
+<div class="wy-grid-for-nav">
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="../../index.html" class="icon icon-home"> L1 Trend Filtering for Trend Extraction
+
+
+                    <img src="../../_static/gdpl.png" class="logo" alt="Logo"/>
+
+                </a>
+
+
+                <div class="version">
+                    1.0
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
+                <p class="caption"><span class="caption-text">Contents</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../building.html">1. Build &amp;
+                        Installation</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../intro.html">2. Introduction</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../quickuse.html">3. Usage</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Algorithm code</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.l1.html">1. L1 Trend
+                        Filtering</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.get_tridiagonal_matrix.html">2.
+                        Tridiagonal matrix</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Helper Functions</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.trend_segment.html">1. Result
+                        Extraction</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.helpers.html">2. Commandline
+                        Initialization</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Message keys</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../l1tf.help_msg.html">1. HELP MESSAGE
+                        KEYS</a></li>
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+
+        <nav class="wy-nav-top" aria-label="top navigation">
+
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="../../index.html">L1 Trend Filtering for Trend Extraction</a>
+
+        </nav>
+
+
+        <div class="wy-nav-content">
+
+            <div class="rst-content style-external-links">
+
+
+                <div role="navigation" aria-label="breadcrumbs navigation">
+
+                    <ul class="wy-breadcrumbs">
+
+                        <li><a href="../../index.html">Docs</a> &raquo;</li>
+
+                        <li><a href="../index.html">Module code</a> &raquo;</li>
+
+                        <li>l1tf.helpers</li>
+
+
+                        <li class="wy-breadcrumbs-aside">
+
+                        </li>
+
+                    </ul>
+
+
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <h1>Source code for l1tf.helpers</h1>
+                        <div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Commandline Initialization</span>
+<span class="sd">###########################</span>
+
+<span class="sd">It creates an object that parses commandline strings into to python objects with necessary and optional arguments</span>
+<span class="sd">specified by the user. Location of the Data and it&#39;s required regularization parameter is necessary arguments while</span>
+<span class="sd">Logger configuration by default will not be changed, but it can be changed by specifying a proper json file.</span>
+<span class="sd">This module aids in running quick_use.py file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">logging.config</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">l1tf.help_msg</span> <span class="k">as</span> <span
+                                class="nn">help_msg</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;nitesh@gyandata.com&quot;</span>
+
+<span class="c1"># setting logger #</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span
+                                class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span
+                                class="p">)</span>
+<span class="n">LOGGER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span
+                                class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span
+                                class="p">)</span>
+<span class="n">STREAM_HANDLER</span> <span class="o">=</span> <span class="n">logging</span><span
+                                class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">LOGGER</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span
+                                class="n">STREAM_HANDLER</span><span class="p">)</span>
+
+<span class="n">_REQ_GROUP_ARG</span> <span class="o">=</span> <span class="s2">&quot; Necessary Arguments&quot;</span>
+<span class="n">_OPT_ARG</span> <span class="o">=</span> <span class="s2">&quot;Optional Argument&quot;</span>
+
+
+<div class="viewcode-block" id="init_cmd_args"><a class="viewcode-back"
+                                                  href="../../l1tf.helpers.html#l1tf.helpers.init_cmd_args">[docs]</a><span
+        class="k">def</span> <span class="nf">init_cmd_args</span><span class="p">(</span><span
+        class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize the python command line argument parser. Output will have a parser with attributes which can be easily</span>
+<span class="sd">    readable python objects</span>
+
+<span class="sd">    :param args: The list of arguments</span>
+<span class="sd">    :type args: list</span>
+
+<span class="sd">    :return: An initialized argument parser</span>
+<span class="sd">    :rtype: :class:`argparse.ArgumentParser`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># argparse initialisation</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span
+            class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span
+            class="o">=</span><span class="n">help_msg</span><span class="o">.</span><span
+            class="n">DESCRIPTION</span><span class="p">)</span>
+
+    <span class="c1"># adding necessary arguments in a group #</span>
+    <span class="n">req_arguments</span> <span class="o">=</span> <span class="n">parser</span><span
+            class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span
+            class="n">title</span><span class="o">=</span><span class="n">_REQ_GROUP_ARG</span><span class="p">,</span> <span
+            class="n">description</span><span class="o">=</span><span
+            class="s1">&#39;These are necessary arguments&#39;</span><span class="p">)</span>
+    <span class="n">req_arguments</span><span class="o">.</span><span class="n">add_argument</span><span
+            class="p">(</span><span class="s2">&quot;--data_dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span
+            class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span
+            class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span
+            class="o">=</span><span class="n">help_msg</span><span class="o">.</span><span class="n">DATALOC</span><span
+            class="p">)</span>
+    <span class="n">req_arguments</span><span class="o">.</span><span class="n">add_argument</span><span
+            class="p">(</span><span class="s2">&quot;--config_dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span
+            class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span
+            class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span
+            class="o">=</span><span class="n">help_msg</span><span class="o">.</span><span
+            class="n">DATACONF</span><span class="p">)</span>
+
+    <span class="c1"># optional arguments #</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span
+            class="p">(</span><span class="s2">&quot;--log_config_file&quot;</span><span class="p">,</span> <span
+            class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span
+            class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span
+            class="n">help</span><span class="o">=</span><span class="n">_OPT_ARG</span><span class="p">)</span>
+
+    <span class="c1"># Parsing the arguments</span>
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span
+            class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="config_logger"><a class="viewcode-back"
+                                                  href="../../l1tf.helpers.html#l1tf.helpers.config_logger">[docs]</a><span
+        class="k">def</span> <span class="nf">config_logger</span><span class="p">(</span><span
+        class="n">log_file_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    configures logging option using the provided .json file</span>
+
+<span class="sd">    :param log_file_path: The fully qualified path of the logger&#39;s json configuration file.</span>
+<span class="sd">    :type log_file_path: string</span>
+
+<span class="sd">    :raises FileNotFoundError: if the configuration file cannot be found</span>
+
+<span class="sd">    :return: Nothing</span>
+<span class="sd">    :rtype: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span
+            class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span
+            class="n">log_file_path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;Configuration File could not be found at&quot;</span><span
+            class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span
+            class="p">{</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">log_file_path</span><span
+            class="p">}))</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_file_path</span><span
+            class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span
+            class="k">as</span> <span class="n">log_file</span><span class="p">:</span>
+        <span class="n">log_opts_dict</span> <span class="o">=</span> <span class="n">json</span><span
+            class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">log_file</span><span
+            class="p">)</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span
+            class="n">dictConfig</span><span class="p">(</span><span class="n">log_opts_dict</span><span
+            class="p">)</span>
+
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
+            class="s2">&quot;Logger initialization successful!&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_data"><a class="viewcode-back"
+                                              href="../../l1tf.helpers.html#l1tf.helpers.load_data">[docs]</a><span
+        class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">data_dir_fp</span><span
+        class="p">,</span> <span class="n">config_dir_fp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads the data</span>
+<span class="sd">    :param data_dir_fp: The path to directory containing the input signal</span>
+<span class="sd">    :type data_dir_fp: :class:`str`</span>
+
+<span class="sd">    :param config_dir_fp: The path to directory containing the configuration files.</span>
+<span class="sd">    :type config_dir_fp: :class:`str`</span>
+
+<span class="sd">    :return: A python generator of tuples, where in each tuple</span>
+
+<span class="sd">            * first element is the input signal id as a :class:`str`</span>
+<span class="sd">            * second element is the input signal data as a :class:`pandas.DataFrame`</span>
+<span class="sd">            * third element is the configuration as a :class:`dict`</span>
+
+<span class="sd">    :rtype: :class:`typing.Generator`</span>
+
+<span class="sd">    :raises EnvironmentError: If</span>
+
+<span class="sd">                                * input signal data directory does not exist in the given path.</span>
+<span class="sd">                                * configuration directory does not exist at a given path.</span>
+
+<span class="sd">    :raises TypeError: if</span>
+
+<span class="sd">                        * data_dir_fp is not a string.</span>
+<span class="sd">                        * config_dir_fp is not a string.</span>
+
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span
+            class="p">(</span><span class="nb">type</span><span class="p">(</span><span
+            class="n">data_dir_fp</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot; Input signal path must be a string!&quot;</span><span
+            class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span
+            class="p">(</span><span class="nb">type</span><span class="p">(</span><span
+            class="n">config_dir_fp</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot; Path to configuration file must be a string!&quot;</span><span
+            class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span
+            class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span
+            class="n">data_dir_fp</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s2">&quot; Given path for input signal does not exist in the directory!&quot;</span><span
+            class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span
+            class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span
+            class="n">config_dir_fp</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s2">&quot; Given path for configuration does not exist in the directory!&quot;</span><span
+            class="p">)</span>
+
+    <span class="c1"># Get list of all configuration. Each configuration corresponding one particular signal in directory</span>
+    <span class="n">config_fullpath</span> <span class="o">=</span> <span class="p">[</span><span
+            class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span
+            class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span
+            class="n">config_dir_fp</span><span class="p">,</span> <span class="n">filename</span><span
+            class="p">))</span> <span class="k">for</span> <span class="n">filename</span> <span
+            class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span
+            class="p">(</span><span class="n">config_dir_fp</span><span class="p">)</span> <span class="k">if</span>
+                       <span class="s2">&quot;.json&quot;</span> <span class="ow">in</span> <span
+            class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)]</span>
+
+    <span class="c1"># iterating over configuration file paths</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">config_fp</span> <span
+            class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">config_fullpath</span><span
+            class="p">):</span>
+
+        <span class="c1"># getting filename from path</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span
+            class="n">PurePath</span><span class="p">(</span><span class="n">config_fp</span><span class="p">)</span>
+
+        <span class="c1"># getting filename without its extension</span>
+        <span class="n">file_name_no_ext</span> <span class="o">=</span> <span class="nb">str</span><span
+            class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">stem</span><span
+            class="p">)</span>
+
+        <span class="c1"># appending signal data file extension</span>
+        <span class="n">data_file_name</span> <span class="o">=</span> <span class="n">file_name_no_ext</span> <span
+            class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
+
+        <span class="c1"># constructing the full path</span>
+        <span class="n">data_fp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span
+            class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span
+            class="n">data_dir_fp</span><span class="p">,</span> <span class="n">data_file_name</span><span
+            class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
+            class="s2">&quot;</span><span class="si">{}</span><span
+            class="s2">, : this file is being processed&quot;</span><span class="o">.</span><span
+            class="n">format</span><span class="p">(</span><span class="n">file_name_no_ext</span><span
+            class="p">))</span>
+
+        <span class="c1"># checking if the path exists or not</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span
+            class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span
+            class="n">data_fp</span><span class="p">):</span>
+            <span class="c1"># If not log the error and continue with operation #</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">error</span><span
+            class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, does not exist in the directory&quot;</span><span
+            class="o">.</span><span class="n">format</span><span class="p">(</span><span
+            class="n">file_name_no_ext</span><span class="p">))</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># reading configuration file #</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">config_fp</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span
+            class="p">)</span> <span class="k">as</span> <span class="n">config_file</span><span class="p">:</span>
+                <span class="c1"># loading in json</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span
+            class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config_file</span><span
+            class="p">)</span>
+
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span
+            class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, is being read&quot;</span><span
+            class="o">.</span><span class="n">format</span><span class="p">(</span><span
+            class="n">file_name_no_ext</span><span class="p">))</span>
+
+            <span class="c1"># loading data files #</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span
+            class="n">data_fp</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span
+            class="k">as</span> <span class="n">data_file</span><span class="p">:</span>
+
+                <span class="n">data_frame</span> <span class="o">=</span> <span class="n">pd</span><span
+            class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span
+            class="n">data_file</span><span class="p">,</span> <span class="n">encoding</span><span
+            class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span
+            class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span
+            class="n">float64</span><span class="p">)</span>
+
+            <span class="k">yield</span> <span class="n">file_name_no_ext</span><span class="p">,</span> <span
+            class="n">data_frame</span><span class="p">,</span> <span class="n">config</span></div>
+</pre>
+                        </div>
+
+                    </div>
+
+                </div>
+                <footer>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2019, GyanData Pvt. Ltd.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+
+</script>
+
+
+</body>
+</html>

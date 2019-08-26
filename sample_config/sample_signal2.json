@@ -1,0 +1,9 @@
+{
+  "lambda": 50,
+  "max_iter": 100,
+  "absolute_tolerance": 1e-7,
+  "relative_tolerance": 1e-6,
+  "feasibility_tolerance": 1e-7,
+  "refine_required": 0,
+  "slope_tolerance": 1e-6
+}

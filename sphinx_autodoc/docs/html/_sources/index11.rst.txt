@@ -1,0 +1,41 @@
+
+Welcome to **L-1 trend filtering**'s documentation
+===================================================
+
+This package provides a reference implementation of the L1 trend filtering as described in the paper below.
+
+`S.-J. Kim, et al., l1 Trend Filtering, Society for Industrial and Applied Mathematics
+(2009) <https://web.stanford.edu/~boyd/papers/l1_trend_filter.html>`_
+
+
+
+.. toctree::
+   :numbered:
+   :caption: Getting started
+   :maxdepth: 2
+
+   building
+
+.. toctree::
+   :numbered:
+   :caption: L1 Trend Filtering
+   :maxdepth: 2
+
+   l1tf.l1
+
+
+.. toctree::
+   :numbered:
+   :caption: Helper Functions
+   :maxdepth: 2
+
+   l1tf.trend_segment
+   l1tf.Tridiagonal_matrix
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`

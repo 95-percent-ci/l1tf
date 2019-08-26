@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>3. Usage &mdash; L1 Trend Filtering for Trend Extraction 1.0.0 documentation</title>
+
+
+    <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+
+
+    <script type="text/javascript" id="documentation_options" data-url_root="./"
+            src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="next" title="1. L1 Trend Filtering" href="l1tf.l1.html"/>
+    <link rel="prev" title="2. Introduction" href="intro.html"/>
+</head>
+
+<body class="wy-body-for-nav">
+
+
+<div class="wy-grid-for-nav">
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+            <div class="wy-side-nav-search">
+
+
+                <a href="index.html" class="icon icon-home"> L1 Trend Filtering for Trend Extraction
+
+
+                    <img src="_static/gdpl.png" class="logo" alt="Logo"/>
+
+                </a>
+
+
+                <div class="version">
+                    1.0
+                </div>
+
+
+                <div role="search">
+                    <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+                        <input type="text" name="q" placeholder="Search docs"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
+                <p class="caption"><span class="caption-text">Contents</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="building.html">1. Build &amp;
+                        Installation</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction</a></li>
+                    <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Usage</a>
+                        <ul>
+                            <li class="toctree-l2"><a class="reference internal" href="#quick-use-scripts">3.1. Quick
+                                use scripts</a></li>
+                            <li class="toctree-l2"><a class="reference internal"
+                                                      href="#initialization-of-helper-functions">3.2. Initialization of
+                                helper functions</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="#logger-configuration-json">3.3.
+                                Logger configuration .json</a></li>
+                            <li class="toctree-l2"><a class="reference internal" href="#results">3.4. Results</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">L1 Trend Filtering</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.l1.html">1. L1 Trend Filtering</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.get_tridiagonal_matrix.html">2.
+                        Tridiagonal matrix</a></li>
+                </ul>
+                <p class="caption"><span class="caption-text">Helper Functions</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
+                        Extraction</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Initialisation</a>
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+
+        <nav class="wy-nav-top" aria-label="top navigation">
+
+            <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+            <a href="index.html">L1 Trend Filtering for Trend Extraction</a>
+
+        </nav>
+
+
+        <div class="wy-nav-content">
+
+            <div class="rst-content style-external-links">
+
+
+                <div role="navigation" aria-label="breadcrumbs navigation">
+
+                    <ul class="wy-breadcrumbs">
+
+                        <li><a href="index.html">Docs</a> &raquo;</li>
+
+                        <li>3. Usage</li>
+
+
+                        <li class="wy-breadcrumbs-aside">
+
+
+                            <a href="_sources/quickuse.rst.txt" rel="nofollow"> View page source</a>
+
+
+                        </li>
+
+                    </ul>
+
+
+                    <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+
+                        <a href="l1tf.l1.html" class="btn btn-neutral float-right" title="1. L1 Trend Filtering"
+                           accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a href="intro.html" class="btn btn-neutral float-left" title="2. Introduction"
+                           accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+                    <hr/>
+                </div>
+                <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+                    <div itemprop="articleBody">
+
+                        <div class="section" id="usage">
+                            <h1>3. Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a>
+                            </h1>
+                            <div class="section" id="quick-use-scripts">
+                                <h2>3.1. Quick use scripts<a class="headerlink" href="#quick-use-scripts"
+                                                             title="Permalink to this headline">¶</a></h2>
+                                <p>Usage of this package is relatively simple using the quick use initialization scripts
+                                    which are provided as part of the
+                                    package.</p>
+                                <p>A sample python script has been provided in the repository titled <strong>L1_sample_main.py</strong>
+                                    along with sample data in
+                                    directory <strong>sample_data</strong>.</p>
+                                <p>We shall delve into this file in detail in this section to understand how to use the
+                                    package through this code snippet.</p>
+                                <div class="highlight-python notranslate">
+                                    <div class="highlight"><pre><span></span><span
+                                            class="c1"># -*- coding: UTF-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Main Drive Program</span>
+<span class="sd">====================</span>
+<span class="sd">This is sample program to show cases the use of the package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># importing packages #</span>
+
+<span class="kn">import</span> <span class="nn">logging</span> <span class="kn">as</span> <span
+                                                class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span> <span class="kn">as</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="kn">import</span> <span class="nn">l1tf.helpers</span> <span class="kn">as</span> <span
+                                                class="nn">helper</span>
+<span class="kn">import</span> <span class="nn">l1tf.l1</span> <span class="kn">as</span> <span class="nn">l1</span>
+<span class="kn">import</span> <span class="nn">l1tf.trend_segment</span> <span class="kn">as</span> <span
+                                                class="nn">ts</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;nitesh@gyandata.com&quot;</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span
+                                                class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span
+                                                class="p">)</span>
+<span class="n">LOGGER</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span
+                                                class="n">logging</span><span class="o">.</span><span
+                                                class="n">DEBUG</span><span class="p">)</span>
+<span class="n">stream_handler</span> <span class="o">=</span> <span class="n">logging</span><span
+                                                class="o">.</span><span class="n">StreamHandler</span><span
+                                                class="p">()</span>
+<span class="n">LOGGER</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span
+                                                class="n">stream_handler</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span
+                                                class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">stored_result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Getting command line arguments from the user #</span>
+    <span class="n">cmd_args</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span
+                                                class="n">init_cmd_args</span><span class="p">(</span><span class="n">sys</span><span
+                                                class="o">.</span><span class="n">argv</span><span
+                                                class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="n">log_config_file</span> <span class="o">=</span> <span class="n">cmd_args</span><span
+                                                class="o">.</span><span class="n">log_config_file</span>
+    <span class="n">data_dir_fp</span> <span class="o">=</span> <span class="n">cmd_args</span><span
+                                                class="o">.</span><span class="n">data_dir</span>
+    <span class="n">config_dir_fp</span> <span class="o">=</span> <span class="n">cmd_args</span><span
+                                                class="o">.</span><span class="n">config_dir</span>
+
+    <span class="c1"># configure logger if logging information is provided</span>
+    <span class="k">if</span> <span class="n">log_config_file</span><span class="p">:</span>
+        <span class="n">helper</span><span class="o">.</span><span class="n">config_logger</span><span
+                                                class="p">(</span><span class="n">log_config_file</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
+                                                class="s2">&quot;Logging configuration changed successfully!&quot;</span><span
+                                                class="p">)</span>
+
+    <span class="k">for</span> <span class="n">signal_name</span><span class="p">,</span> <span
+                                                class="n">signal_df</span><span class="p">,</span> <span class="n">run_config</span> <span
+                                                class="ow">in</span> <span class="n">helper</span><span
+                                                class="o">.</span><span class="n">load_data</span><span
+                                                class="p">(</span><span class="n">data_dir_fp</span><span
+                                                class="p">,</span> <span class="n">config_dir_fp</span><span class="p">):</span>
+
+        <span class="c1"># converting signal into np.ndarray #</span>
+        <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span
+                                                class="n">ravel</span><span class="p">(</span><span
+                                                class="n">signal_df</span><span class="o">.</span><span
+                                                class="n">values</span><span class="p">)</span>
+
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
+                                                class="s2">&quot;Performing L1 trend filtering for , {}&quot;</span><span
+                                                class="o">.</span><span class="n">format</span><span
+                                                class="p">(</span><span class="n">signal_name</span><span
+                                                class="p">))</span>
+
+        <span class="n">lamda</span> <span class="o">=</span> <span class="n">run_config</span><span
+                                                class="p">[</span><span class="s2">&quot;lambda&quot;</span><span
+                                                class="p">]</span>
+        <span class="n">iter_max</span> <span class="o">=</span> <span class="n">run_config</span><span
+                                                class="p">[</span><span class="s2">&quot;max_iter&quot;</span><span
+                                                class="p">]</span>
+        <span class="n">abs_tol</span> <span class="o">=</span> <span class="n">run_config</span><span
+                                                class="p">[</span><span class="s2">&quot;absolute_tolerance&quot;</span><span
+                                                class="p">]</span>
+        <span class="n">rel_tol</span> <span class="o">=</span> <span class="n">run_config</span><span
+                                                class="p">[</span><span class="s2">&quot;relative_tolerance&quot;</span><span
+                                                class="p">]</span>
+        <span class="n">feas_tol</span> <span class="o">=</span> <span class="n">run_config</span><span
+                                                class="p">[</span><span
+                                                class="s2">&quot;feasibility_tolerance&quot;</span><span
+                                                class="p">]</span>
+        <span class="n">refine</span> <span class="o">=</span> <span class="n">run_config</span><span class="p">[</span><span
+                                                class="s2">&quot;refine_required&quot;</span><span class="p">]</span>
+        <span class="n">slope_tol</span> <span class="o">=</span> <span class="n">run_config</span><span
+                                                class="p">[</span><span
+                                                class="s2">&quot;slope_tolerance&quot;</span><span class="p">]</span>
+
+        <span class="n">trend</span> <span class="o">=</span> <span class="n">l1</span><span class="o">.</span><span
+                                                class="n">l1_trend</span><span class="p">(</span><span
+                                                class="n">signal</span><span class="p">,</span> <span
+                                                class="n">lamda</span><span class="p">,</span> <span
+                                                class="n">iter_max</span><span class="p">,</span> <span class="n">abs_tol</span><span
+                                                class="p">,</span> <span class="n">rel_tol</span><span
+                                                class="p">,</span> <span class="n">feas_tol</span><span
+                                                class="p">,</span> <span class="n">refine</span><span class="p">)</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span
+                                                class="s2">&quot;L1 trend filtering completed at given configuration for  , {}&quot;</span><span
+                                                class="o">.</span><span class="n">format</span><span
+                                                class="p">(</span><span class="n">signal_name</span><span
+                                                class="p">))</span>
+        <span class="n">cp</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span
+                                                class="n">extract_segment</span><span class="p">(</span><span class="n">trend</span><span
+                                                class="p">,</span> <span class="n">slope_tol</span><span
+                                                class="p">)</span>
+        <span class="n">ext_result</span> <span class="o">=</span> <span class="n">ts</span><span
+                                                class="o">.</span><span class="n">get_result</span><span
+                                                class="p">(</span><span class="n">trend</span><span
+                                                class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span
+                                                class="n">cp</span><span class="p">)</span>
+        <span class="n">stored_result</span><span class="o">.</span><span class="n">append</span><span
+                                                class="p">(</span><span class="n">ext_result</span><span
+                                                class="p">)</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section" id="initialization-of-helper-functions">
+                                <h2>3.2. Initialization of helper functions<a class="headerlink"
+                                                                              href="#initialization-of-helper-functions"
+                                                                              title="Permalink to this headline">¶</a>
+                                </h2>
+                                <p>We first start off by initializing the command line arguments using one of the
+                                    quick-use initialization function present
+                                    in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">helpers</span></code>
+                                    module. This allows is to do two things,</p>
+                                <ul class="simple">
+                                    <li><p>Make the Python script display a help menu, which will immensely helpful
+                                        while deploying the package in system only
+                                        have command line interface.</p></li>
+                                    <li><p>Allow command line arguments to be passed to this script</p></li>
+                                </ul>
+                                <p>For example if one were to request for a help message like so</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span><span class="nv">$python3</span> L1_sample_main.py --help
+</pre>
+                                    </div>
+                                </div>
+                                <p>the following help message will be displayed</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>usage: L1_sample_main.py <span
+                                            class="o">[</span>-h<span class="o">]</span> --data_dir DATA_DIR --config_dir CONFIG_DIR
+                     <span class="o">[</span>--log_config_file LOG_CONFIG_FILE<span class="o">]</span>
+
+Demonstrates quick use of the package
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  --log_config_file LOG_CONFIG_FILE
+                        Optional Argument
+
+ Necessary Arguments:
+  These are necessary arguments
+
+  --data_dir DATA_DIR   Specify path to directory where input signal is
+                        located
+  --config_dir CONFIG_DIR
+                        Specify path to directory where lambda
+                        <span class="o">(</span>Regularization<span class="o">)</span> and solver settings are stored
+</pre>
+                                    </div>
+                                </div>
+                                <p>It provides crucial information about arguments to be passed. For the program to run
+                                    successfully it needs 2
+                                    necessary arguments: 1) path to directory where signal is stored in a .csv file and
+                                    2) path to directory where
+                                    regularization parameter <img class="math"
+                                                                  src="_images/math/6c1989a1ef2e7f86dbe4a9e6c12b7741981d8766.png"
+                                                                  alt="\lambda"/> and solver options are stored in .json
+                                    file.</p>
+                                <p>An example of call code would look like this</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ python3 L1_sample_main.py --data_dir<span
+                                            class="o">=</span><span class="s2">&quot;/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_data&quot;</span> --config_dir<span
+                                            class="o">=</span><span class="s2">&quot;/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_config&quot;</span>
+</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section" id="logger-configuration-json">
+                                <h2>3.3. Logger configuration .json<a class="headerlink"
+                                                                      href="#logger-configuration-json"
+                                                                      title="Permalink to this headline">¶</a></h2>
+                                <p>If users wish to have fine-grained control over their logging they can also pass the
+                                    optional <strong>log_config_file</strong> argument
+                                    as a path to a logging configuration json file. For example in the json file
+                                    provided below</p>
+                                <div class="highlight-json notranslate">
+                                    <div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span>                 <span class="p">:</span> <span class="mi">1</span><span
+                                                class="p">,</span>
+  <span class="nt">&quot;disable_existing_loggers&quot;</span><span class="p">:</span> <span
+                                                class="kc">false</span><span class="p">,</span>
+  <span class="nt">&quot;formatters&quot;</span>              <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;package_formatter&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;[%(levelname)s] - [%(name)s] : %(message)s&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;handlers&quot;</span>                <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;console&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;class&quot;</span>    <span class="p">:</span> <span class="s2">&quot;logging.StreamHandler&quot;</span><span
+                                                class="p">,</span>
+      <span class="nt">&quot;level&quot;</span>    <span class="p">:</span> <span
+                                                class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;formatter&quot;</span><span class="p">:</span> <span class="s2">&quot;package_formatter&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;loggers&quot;</span>                 <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;lqtf.helpers&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;level&quot;</span>   <span class="p">:</span> <span
+                                                class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;propagate&quot;</span><span class="p">:</span> <span class="kc">false</span><span
+                                                class="p">,</span>
+      <span class="nt">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;console&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;root&quot;</span>                    <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;level&quot;</span>   <span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span
+                                                class="p">,</span>
+    <span class="nt">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;console&quot;</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+                                    </div>
+                                </div>
+                                <p>the log-level for the logger present in the <a class="reference internal"
+                                                                                  href="l1tf.helpers.html#module-l1tf.helpers"
+                                                                                  title="l1tf.helpers"><code
+                                        class="xref py py-mod docutils literal notranslate"><span class="pre">l1tf.helpers</span></code></a>
+                                    module has been set to level DEBUG.
+                                    For a complete guide on python logging framework refer to the official documentation
+                                    at
+                                    <a class="reference external" href="https://docs.python.org/3/library/logging.html">link</a>.
+                                </p>
+                            </div>
+                            <div class="section" id="results">
+                                <h2>3.4. Results<a class="headerlink" href="#results"
+                                                   title="Permalink to this headline">¶</a></h2>
+                                <p>The sample script provided scans automatically for the input signals files and
+                                    required configuration in the specified
+                                    directory. Algorithm is executed for each input signal and it status is displayed
+                                    simultaneously.</p>
+                                <p>Python <code class="xref py py-mod docutils literal notranslate"><span class="pre">dict</span></code>
+                                    is returned for each signal. The dictionary has the following keys</p>
+                                <ul class="simple">
+                                    <li><p>segment_result : Segment wise result after <img class="math"
+                                                                                           src="_images/math/15968195d9a72fcaeb59ac69ae61b305cd39afc4.png"
+                                                                                           alt="l1"/> trend filtering
+                                        are stored in a list. It contains segment wise
+                                        extracted results corresponding to a linear segment.</p></li>
+                                    <li><p>overall_mse : Mean square error between the signal and the <img class="math"
+                                                                                                           src="_images/math/15968195d9a72fcaeb59ac69ae61b305cd39afc4.png"
+                                                                                                           alt="l1"/>
+                                        trend fit.</p></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <footer>
+
+                    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+
+                        <a href="l1tf.l1.html" class="btn btn-neutral float-right" title="1. L1 Trend Filtering"
+                           accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+
+
+                        <a href="intro.html" class="btn btn-neutral float-left" title="2. Introduction" accesskey="p"
+                           rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+                    </div>
+
+
+                    <hr/>
+
+                    <div role="contentinfo">
+                        <p>
+                            &copy; Copyright 2019, GyanData Pvt. Ltd.
+
+                        </p>
+                    </div>
+                    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a
+                        href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a
+                        href="https://readthedocs.org">Read the Docs</a>.
+
+                </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+
+</script>
+
+
+</body>
+</html>
