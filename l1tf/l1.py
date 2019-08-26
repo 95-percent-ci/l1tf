@@ -50,7 +50,7 @@ def l1_trend(signal, lamda, show_progress, iter_max=1000, tol_abs=1e-7, tol_rel=
     :param signal: Input signal.( a time series data )
     :type signal: :class:`numpy.ndarray`
 
-    :param lamda: Regularization paramater.( Higher value leads to single stra
+    :param lamda: Regularization parameter.( to control trade off between the smoothness and residual )
     :type lamda: float
 
     :param iter_max: Maximum number of solver iterations
