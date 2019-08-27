@@ -85,8 +85,7 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
                         Extraction</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Commandline
-                        Initialization</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Quick use</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Message keys</span></p>
                 <ul>
@@ -205,10 +204,11 @@
                                     <code class="sig-prename descclassname">l1tf.l1.</code><code
                                         class="sig-name descname">l1_trend</code><span class="sig-paren">(</span><em
                                         class="sig-param">signal</em>, <em class="sig-param">lamda</em>, <em
-                                        class="sig-param">iter_max=1000</em>, <em class="sig-param">tol_abs=1e-07</em>,
-                                    <em class="sig-param">tol_rel=1e-06</em>, <em class="sig-param">feas_rel=1e-07</em>,
-                                    <em class="sig-param">refine=0</em><span class="sig-paren">)</span><a
-                                        class="reference internal" href="_modules/l1tf/l1.html#l1_trend"><span
+                                        class="sig-param">show_progress</em>, <em class="sig-param">iter_max=1000</em>,
+                                    <em class="sig-param">tol_abs=1e-07</em>, <em class="sig-param">tol_rel=1e-06</em>,
+                                    <em class="sig-param">feas_rel=1e-07</em>, <em class="sig-param">refine=0</em><span
+                                        class="sig-paren">)</span><a class="reference internal"
+                                                                     href="_modules/l1tf/l1.html#l1_trend"><span
                                         class="viewcode-link">[source]</span></a><a class="headerlink"
                                                                                     href="#l1tf.l1.l1_trend"
                                                                                     title="Permalink to this definition">¶</a>
@@ -229,8 +229,8 @@
                                                 <li><p><strong>lamda</strong> (<a class="reference external"
                                                                                   href="https://docs.python.org/3/library/functions.html#float"
                                                                                   title="(in Python v3.7)"><em>float</em></a>)
-                                                    – Regularization paramater.( Higher value leads to single stra</p>
-                                                </li>
+                                                    – Regularization parameter.( to control trade off between the
+                                                    smoothness and residual )</p></li>
                                                 <li><p><strong>iter_max</strong> (<a class="reference external"
                                                                                      href="https://docs.python.org/3/library/functions.html#int"
                                                                                      title="(in Python v3.7)"><em>int</em></a>)
@@ -238,7 +238,7 @@
                                                 <li><p><strong>tol_abs</strong> (<a class="reference external"
                                                                                     href="https://docs.python.org/3/library/functions.html#float"
                                                                                     title="(in Python v3.7)"><em>float</em></a>)
-                                                    – Absolute accuracy ( Required difference between primal and dual
+                                                    – Absolute tolerance ( Required difference between primal and dual
                                                     objective function )</p></li>
                                                 <li><p><strong>tol_rel</strong> (<a class="reference external"
                                                                                     href="https://docs.python.org/3/library/functions.html#float"
@@ -255,6 +255,8 @@
                                                                                    title="(in Python v3.7)"><em>int</em></a>)
                                                     – Number of iterative refinement steps when solving KKT equations,
                                                     for Quadratic problem it is 0.</p></li>
+                                                <li><p><strong>show_progress</strong> (<em>Bool</em>) – show if display
+                                                    of solver progress required or not.</p></li>
                                             </ul>
                                         </dd>
                                         <dt class="field-even">Returns</dt>

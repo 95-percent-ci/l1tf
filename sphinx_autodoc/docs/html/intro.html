@@ -86,15 +86,12 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.l1.html">1. L1 Trend Filtering</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.get_tridiagonal_matrix.html">2.
-                        Tridiagonal matrix</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Helper Functions</span></p>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
                         Extraction</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Commandline
-                        Initialization</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Quick use</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Message keys</span></p>
                 <ul>
@@ -168,39 +165,45 @@
                                 <p>Estimation of underlying trends in time series data is useful in a variety of
                                     disciplines ( econometrics, process
                                     control engineering etc). <img class="math"
-                                                                   src="_images/math/404321749c85f9ab42e8ef34944d48de20b0cdb8.png"
-                                                                   alt="l_1"/> trend filtering is a novel method of
-                                    extracting trends from a time series data. It substitutes sum of
+                                                                   src="_images/math/310b7f2361e691856d14705b46b328f278179f2f.svg"
+                                                                   alt="l_1" style="vertical-align: -3px"/> trend
+                                    filtering is a novel method of extracting trends from a time series data. It
+                                    substitutes sum of
                                     squares penalization term used in Hodrick-Prescott(H-P) Filtering by a sum of
                                     absolute values(i.e., an <img class="math"
-                                                                  src="_images/math/404321749c85f9ab42e8ef34944d48de20b0cdb8.png"
-                                                                  alt="l_1"/> norm). This
+                                                                  src="_images/math/310b7f2361e691856d14705b46b328f278179f2f.svg"
+                                                                  alt="l_1" style="vertical-align: -3px"/> norm). This
                                     produces trend estimates that are piecewise linear. Changes in slope in extracted
                                     trend can aid in extracting underlying
                                     steady state condition in the signal. Mathematically it tries minimize following
                                     objective function.</p>
                                 <div class="math">
-                                    <p><img src="_images/math/f78df2a5da30fd1e36f8b0f7bc31f4a88adbe478.png"
+                                    <p><img src="_images/math/9fe5c9b188a06404edcb75e0eaf9fd0452fbaa25.svg"
                                             alt="(1/2)\sum_{t=1}^{n}(y_t - x_t)^2 + \lambda \sum_{t=1}^{n}|x_{t-1} - 2x_t + x_{t+1}|"/>
                                     </p>
                                 </div>
                                 <p>Where <img class="math"
-                                              src="_images/math/6c1989a1ef2e7f86dbe4a9e6c12b7741981d8766.png"
-                                              alt="\lambda"/> is a nonnegative parameter used to control the trade-off
-                                    between smoothness of <img class="math"
-                                                               src="_images/math/b063dea9fb0ba4c75d66b2c8060b5e704ca98457.png"
-                                                               alt="x"/> and
+                                              src="_images/math/d229c8d064a5c1935fdaab521351fb509be43712.svg"
+                                              alt="\lambda" style="vertical-align: 0px"/> is a nonnegative parameter
+                                    used to control the trade-off between smoothness of <img class="math"
+                                                                                             src="_images/math/4d1eabf3ea6f4d272ac709e7071abe435376a5d0.svg"
+                                                                                             alt="x"
+                                                                                             style="vertical-align: 0px"/>
+                                    and
                                     size of the residual. Same objective could also be written as</p>
                                 <div class="math">
-                                    <p><img src="_images/math/e68aef04f0e40c09362eb2c65e60c633ef450c0b.png"
+                                    <p><img src="_images/math/dfc13de8548cf025772674fe95d9ac712b40e11c.svg"
                                             alt="(1/2)||y-x||_2^2  + \lambda ||Dx||_1"/></p>
                                 </div>
                                 <p>where <img class="math"
-                                              src="_images/math/658e74bb2fb5ffbfce23d502f67b2b09bd3e101e.png" alt="D"/>
-                                    <img class="math" src="_images/math/1794c3070ad8e8e0e2b66850392e6fb1318e77e0.png"
-                                         alt="\in R^{(n-2)\times n}"/> is the second order difference matrix</p>
+                                              src="_images/math/a2c07234777b5921a6119711e99ac1067736271b.svg" alt="D"
+                                              style="vertical-align: 0px"/> <img class="math"
+                                                                                 src="_images/math/16ed9a9823c9a191e05ce8f96423846dbb5c5998.svg"
+                                                                                 alt="\in R^{(n-2)\times n}"
+                                                                                 style="vertical-align: -1px"/> is the
+                                    second order difference matrix</p>
                                 <div class="math">
-                                    <p><img src="_images/math/102a6cb7cec3d96916988df2e9b8e5b39bb5cca6.png" alt="\begin{bmatrix}
+                                    <p><img src="_images/math/5226da9125e664240d300a5c5bccf98e1f62b197.svg" alt="\begin{bmatrix}
 1 &amp; -2 &amp; 1 &amp; \cdots &amp; \cdots &amp; \cdots &amp; \cdots &amp; 0\\
 0 &amp; 1 &amp; -2 &amp; 1 &amp; &amp; &amp; &amp; \vdots\\
 0 &amp; 0 &amp; 1 &amp; -2 &amp; \ddots &amp; &amp; &amp; \vdots\\
@@ -211,31 +214,32 @@
                                 </div>
                                 <p>The Lagrangian turns out be</p>
                                 <div class="math">
-                                    <p><img src="_images/math/89116c4f6fd6ffdb510ae776f76f7360ee3ea6a9.png"
+                                    <p><img src="_images/math/6b680b1cf8340178159d370144996e7776caa8dd.svg"
                                             alt="(1/2)||y-x||_2^2  + \lambda ||z||_1 + \nu^T(Dx - z)"/></p>
                                 </div>
                                 <p>where <img class="math"
-                                              src="_images/math/5e94befac198579a6a2f1f2d93bcf645f3bf34d2.png" alt="z"/>
-                                    = <img class="math" src="_images/math/d3ba34cebe7ac9bb2719b5763aec9da4b4aef794.png"
-                                           alt="Dx"/>. The dual of lagrangian is a convex quadratic program and it is
-                                    given by</p>
+                                              src="_images/math/b6c4307baff86b12eed77bae172d759c182d94fe.svg" alt="z"
+                                              style="vertical-align: 0px"/> = <img class="math"
+                                                                                   src="_images/math/657ded7590294b8fd270addf710ac5c2649d5681.svg"
+                                                                                   alt="Dx"
+                                                                                   style="vertical-align: 0px"/>. The
+                                    dual of lagrangian is a convex quadratic program and it is given by</p>
                                 <div class="math">
-                                    <p><img src="_images/math/eda45b702ba89d414985fa2dbebf3ae67bcfbaf4.png"
+                                    <p><img src="_images/math/b6372d2ad25e1a8802b3452190f178b3e290c0ba.svg"
                                             alt="g(\nu) = (1/2)\nu^T DD^T \nu - y^T D^T \nu"/></p>
                                 </div>
                                 <p>subject to</p>
                                 <div class="math">
-                                    <p><img src="_images/math/92ed2800c56feeb70082097540a880d7331566b2.png"
+                                    <p><img src="_images/math/10dbdf482c69def25845af6d6890e2d10872bdf1.svg"
                                             alt="-\lambda \leq \nu \leq  \lambda"/></p>
                                 </div>
                                 <p>The solution <img class="math"
-                                                     src="_images/math/0bce029f3819108d5652d3bf6db513ffdb71eaf2.png"
-                                                     alt="\nu^{lt}"/> of the dual, <img class="math"
-                                                                                        src="_images/math/404321749c85f9ab42e8ef34944d48de20b0cdb8.png"
-                                                                                        alt="l_1"/> trend estimate can
-                                    be estimated via</p>
+                                                     src="_images/math/b4ebfbd9f9829137d7d2a6bf022d34d388471293.svg"
+                                                     alt="\nu^{lt}" style="vertical-align: 0px"/> of the dual, <img
+                                        class="math" src="_images/math/310b7f2361e691856d14705b46b328f278179f2f.svg"
+                                        alt="l_1" style="vertical-align: -3px"/> trend estimate can be estimated via</p>
                                 <div class="math">
-                                    <p><img src="_images/math/04dd82d217238c3c1323d9bfcba5beb9499a26d1.png"
+                                    <p><img src="_images/math/aaeb4db58682fa9c22fb015fca1a83eafadb700c.svg"
                                             alt="x^{lt} = y - D^T v^{lt}"/></p>
                                 </div>
                             </div>
@@ -248,7 +252,7 @@
                                     solves
                                     quadratic program of form</p>
                                 <div class="math">
-                                    <p><img src="_images/math/fae770950607152a43c97c5d8588c6aee31ee3a2.png" alt="minimize :(1/2)x^T P x + q^T x
+                                    <p><img src="_images/math/e76c038d942775bbcfc038acb1a17344f38076e1.svg" alt="minimize :(1/2)x^T P x + q^T x
 
 constraint : Gx \leq h
 
@@ -256,12 +260,12 @@ Ax = b"/></p>
                                 </div>
                                 <p>where</p>
                                 <div class="math">
-                                    <p><img src="_images/math/52209ff33ec31c0ba6af645809751477f3538f2f.png"
+                                    <p><img src="_images/math/9ce80dda7c09d204500dc85e7b34662c9793e67b.svg"
                                             alt="P = DD^T, q = -D y"/></p>
                                 </div>
                                 <p>and</p>
                                 <div class="math">
-                                    <p><img src="_images/math/0d83a51a0251bfd0d77f456fde82601da95788e8.png" alt="G = \begin{bmatrix}
+                                    <p><img src="_images/math/827d73b244b31828f7241da21afbbcaf7312b6fd.svg" alt="G = \begin{bmatrix}
     1 &amp; 1 &amp; \cdots &amp; 1 \\
     1 &amp; 1 &amp; \cdots &amp;  1 \\
     1 &amp; 1 &amp; \cdots &amp;  1 \\
@@ -281,7 +285,7 @@ Ax = b"/></p>
         \end{bmatrix}_{2(n-2) \times 1}"/></p>
                                 </div>
                                 <div class="math">
-                                    <p><img src="_images/math/bdc2e2f120aff594d6ed42391e4f420b12661d47.png"
+                                    <p><img src="_images/math/f55c87f8bcf60a6955829c761f77af0fcbd9cab3.svg"
                                             alt="G[:n-2,:] = 1, G[n-2:,:] = -1"/></p>
                                 </div>
                                 <p>The user is requested to go through <a class="reference external"

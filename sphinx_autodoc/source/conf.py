@@ -51,6 +51,10 @@ extensions = [
     'sphinx.ext.intersphinx'
 ]
 
+imgmath_image_format = 'svg'
+imgmath_use_preview = True
+imgmath_font_size = 14
+
 intersphinx_mapping = {
     'numpy': ('http://docs.scipy.org/doc/numpy/', None),
     'python': ('https://docs.python.org/3', None),

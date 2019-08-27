@@ -6,5 +6,5 @@
   "feasibility_tolerance": 1e-7,
   "refine_required": 0,
   "slope_tolerance": 1e-6,
-  "show_progress": "True"
+  "show_progress": 1
 }

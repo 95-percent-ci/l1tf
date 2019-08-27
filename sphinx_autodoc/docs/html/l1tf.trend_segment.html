@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <link rel="index" title="Index" href="genindex.html"/>
     <link rel="search" title="Search" href="search.html"/>
-    <link rel="next" title="2. Commandline Initialization" href="l1tf.helpers.html"/>
+    <link rel="next" title="2. Quick use" href="l1tf.helpers.html"/>
     <link rel="prev" title="1. L1 Trend Filtering" href="l1tf.l1.html"/>
 </head>
 
@@ -85,8 +85,7 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="current reference internal" href="#">1. Result
                         Extraction</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Commandline
-                        Initialization</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Quick use</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Message keys</span></p>
                 <ul>
@@ -137,9 +136,8 @@
 
                     <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
 
-                        <a href="l1tf.helpers.html" class="btn btn-neutral float-right"
-                           title="2. Commandline Initialization" accesskey="n">Next <span
-                                class="fa fa-arrow-circle-right"></span></a>
+                        <a href="l1tf.helpers.html" class="btn btn-neutral float-right" title="2. Quick use"
+                           accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
 
 
                         <a href="l1tf.l1.html" class="btn btn-neutral float-left" title="1. L1 Trend Filtering"
@@ -174,8 +172,8 @@
                                         class="xref py py-class docutils literal notranslate"><span
                                         class="pre">object</span></code></a></p>
                                     <p>This class instantiates an object will following attributes: slope, intercept,
-                                        start, end, segment_trend, residual,
-                                        y.</p>
+                                        start, end, segment_trend,signal_ext,
+                                        residual</p>
                                     <dl class="field-list simple">
                                         <dt class="field-odd">Variables</dt>
                                         <dd class="field-odd">
@@ -200,15 +198,12 @@
                                                         class="xref py py-class docutils literal notranslate"><span
                                                         class="pre">numpy.ndarray</span></code></a>) – extracted trend.
                                                 </p></li>
-                                                <li><p><a class="reference external"
-                                                          href="https://docs.python.org/3/library/signal.html#module-signal"
-                                                          title="(in Python v3.7)"><strong>signal</strong></a> (<a
-                                                        class="reference external"
-                                                        href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
-                                                        title="(in NumPy v1.17)"><code
+                                                <li><p><strong>signal_ext</strong> (<a class="reference external"
+                                                                                       href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray"
+                                                                                       title="(in NumPy v1.17)"><code
                                                         class="xref py py-class docutils literal notranslate"><span
                                                         class="pre">numpy.ndarray</span></code></a>) – values of signal
-                                                    for the segment</p></li>
+                                                    for the segment.</p></li>
                                                 <li><p><strong>residual</strong> (<a class="reference external"
                                                                                      href="https://docs.python.org/3/library/functions.html#float"
                                                                                      title="(in Python v3.7)"><em>float</em></a>)
@@ -423,9 +418,8 @@
 
                     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
 
-                        <a href="l1tf.helpers.html" class="btn btn-neutral float-right"
-                           title="2. Commandline Initialization" accesskey="n" rel="next">Next <span
-                                class="fa fa-arrow-circle-right"></span></a>
+                        <a href="l1tf.helpers.html" class="btn btn-neutral float-right" title="2. Quick use"
+                           accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
 
 
                         <a href="l1tf.l1.html" class="btn btn-neutral float-left" title="1. L1 Trend Filtering"

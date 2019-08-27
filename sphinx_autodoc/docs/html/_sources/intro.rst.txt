@@ -18,7 +18,7 @@ size of the residual. Same objective could also be written as
 .. math::
    (1/2)||y-x||_2^2  + \lambda ||Dx||_1
 
-where :math:`D` :math:`\in R^{(n-2)\times n}` is the second order difference matrix
+where  :math:`D` :math:`\in R^{(n-2)\times n}` is the second order difference matrix
 
 .. math::
 

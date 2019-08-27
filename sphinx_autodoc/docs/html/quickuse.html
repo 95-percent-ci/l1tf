@@ -96,8 +96,7 @@
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="l1tf.trend_segment.html">1. Result
                         Extraction</a></li>
-                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Commandline
-                        Initialization</a></li>
+                    <li class="toctree-l1"><a class="reference internal" href="l1tf.helpers.html">2. Quick use</a></li>
                 </ul>
                 <p class="caption"><span class="caption-text">Message keys</span></p>
                 <ul>
@@ -325,9 +324,9 @@ optional arguments:
                                     necessary arguments: 1) path to directory where signal is stored in a .csv file and
                                     2) path to directory where
                                     regularization parameter <img class="math"
-                                                                  src="_images/math/6c1989a1ef2e7f86dbe4a9e6c12b7741981d8766.png"
-                                                                  alt="\lambda"/> and solver options are stored in .json
-                                    file.</p>
+                                                                  src="_images/math/d229c8d064a5c1935fdaab521351fb509be43712.svg"
+                                                                  alt="\lambda" style="vertical-align: 0px"/> and solver
+                                    options are stored in .json file.</p>
                                 <p>An example of call code would look like this</p>
                                 <div class="highlight-bash notranslate">
                                     <div class="highlight"><pre><span></span>$ python3 l1_sample_main.py --data_dir<span
@@ -396,6 +395,16 @@ optional arguments:
                                     at
                                     <a class="reference external" href="https://docs.python.org/3/library/logging.html">link</a>.
                                 </p>
+                                <p>An example of code call with user specified logging configuration would like this
+                                    this:</p>
+                                <div class="highlight-bash notranslate">
+                                    <div class="highlight"><pre><span></span>$ python3 l1_sample_main.py --data_dir<span
+                                            class="o">=</span><span class="s2">&quot;/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_data&quot;</span> --config_dir<span
+                                            class="o">=</span><span class="s2">&quot;/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_config&quot;</span> --log_config_file<span
+                                            class="o">=</span><span class="s2">&quot;/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/logger_config/log_config_file.json&quot;</span>
+</pre>
+                                    </div>
+                                </div>
                             </div>
                             <div class="section" id="results">
                                 <h2>3.4. Results<a class="headerlink" href="#results"
@@ -403,18 +412,22 @@ optional arguments:
                                 <p>The sample script provided scans automatically for the input signals files and
                                     required configuration in the specified
                                     directory. Algorithm is executed for each input signal and it status is displayed
-                                    simultaneously.</p>
+                                    simultaneously. If user wants to store
+                                    results, it is suggested to go over <strong>Result Extraction</strong> page in the
+                                    documentation.</p>
                                 <p>Python <code class="xref py py-mod docutils literal notranslate"><span class="pre">dict</span></code>
                                     is returned for each signal. The dictionary has the following keys</p>
                                 <ul class="simple">
                                     <li><p>segment_result : Segment wise result after <img class="math"
-                                                                                           src="_images/math/15968195d9a72fcaeb59ac69ae61b305cd39afc4.png"
-                                                                                           alt="l1"/> trend filtering
-                                        are stored in a list. It contains segment wise
+                                                                                           src="_images/math/ebb39c2d377cc75ded0f7b96f11a71de94716f54.svg"
+                                                                                           alt="l1"
+                                                                                           style="vertical-align: 0px"/>
+                                        trend filtering are stored in a list. It contains segment wise
                                         extracted results corresponding to a linear segment.</p></li>
                                     <li><p>overall_mse : Mean square error between the signal and the <img class="math"
-                                                                                                           src="_images/math/15968195d9a72fcaeb59ac69ae61b305cd39afc4.png"
-                                                                                                           alt="l1"/>
+                                                                                                           src="_images/math/ebb39c2d377cc75ded0f7b96f11a71de94716f54.svg"
+                                                                                                           alt="l1"
+                                                                                                           style="vertical-align: 0px"/>
                                         trend fit.</p></li>
                                 </ul>
                             </div>

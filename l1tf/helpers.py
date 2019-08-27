@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-Commandline Initialization
+Functions for quick use
 ###########################
 
 It creates an object that parses commandline strings into to python objects with necessary and optional arguments
@@ -26,7 +26,7 @@ __author__ = "nitesh@gyandata.com"
 LOGGER = logging.getLogger(__name__)
 
 _REQ_GROUP_ARG = " Necessary Arguments"
-_OPT_ARG = "Optional Argument"
+_OPT_ARG = "Full Path to which logger file is located"
 
 
 def init_cmd_args(args):

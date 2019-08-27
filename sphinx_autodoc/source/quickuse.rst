@@ -157,11 +157,19 @@ sets level for the logger present in the :py:mod:`l1tf.helpers` module has been 
 For a complete guide on python logging framework refer to the official documentation at
 `link <https://docs.python.org/3/library/logging.html>`_.
 
+An example of code call with user specified logging configuration would like this this:
+
+.. code-block:: bash
+
+   $ python3 l1_sample_main.py --data_dir="/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_data" --config_dir="/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/sample_config" --log_config_file="/home/gdpl_012/PycharmProjects/L1_Trend_Filtering/logger_config/log_config_file.json"
+
 
 Results
 *********
 The sample script provided scans automatically for the input signals files and required configuration in the specified
-directory. Algorithm is executed for each input signal and it status is displayed simultaneously.
+directory. Algorithm is executed for each input signal and it status is displayed simultaneously. If user wants to store
+results, it is suggested to go over **Result Extraction** page in the documentation.
+
 
 Python :py:mod:`dict` is returned for each signal. The dictionary has the following keys
 

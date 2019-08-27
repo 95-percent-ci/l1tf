@@ -56,7 +56,7 @@ def l1_trend(signal, lamda, show_progress, iter_max=1000, tol_abs=1e-7, tol_rel=
     :param iter_max: Maximum number of solver iterations
     :type iter_max: int
 
-    :param tol_abs: Absolute accuracy ( Required difference between primal and dual objective function )
+    :param tol_abs: Absolute tolerance ( Required difference between primal and dual objective function )
 
     :type tol_abs: float
 
@@ -111,13 +111,12 @@ def l1_trend(signal, lamda, show_progress, iter_max=1000, tol_abs=1e-7, tol_rel=
 
     diag_matrix = derivative_matrix(length)
 
-    solvers.options["maxiters"] = iter_max
-    solvers.options["abstol"] = tol_abs
-    solvers.options["reltol"] = tol_rel
-    solvers.options["feastol"] = feas_rel
-    solvers.options["refinement"] = refine
-    solvers.options["show_progress"] = show_progress
-
+    solvers.options['maxiters'] = iter_max
+    solvers.options['abstol'] = tol_abs
+    solvers.options['reltol'] = tol_rel
+    solvers.options['feastol'] = feas_rel
+    solvers.options['refinement'] = refine
+    solvers.options['show_progress'] = show_progress
     temp = length - 2
     temp_ls = range(temp)
     sparse_diag_mat = sparse(matrix(diag_matrix))

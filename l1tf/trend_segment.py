@@ -2,7 +2,6 @@
 """
 Result Extraction
 =====================
-
 Functions defined here are used to extract all the linear segment once L1 trend is computed.
 
 """
@@ -69,8 +68,8 @@ def get_result(trend, signal, change_points):
 
 class TrendResult(object):
     """
-    This class instantiates an object will following attributes: slope, intercept, start, end, segment_trend, residual,
-    y.
+    This class instantiates an object will following attributes: slope, intercept, start, end, segment_trend,signal_ext,
+    residual
 
     :ivar slope: slope of the linear segment
     :vartype slope: float
@@ -87,8 +86,8 @@ class TrendResult(object):
     :ivar segment_trend: extracted trend.
     :vartype segment_trend: :class:`numpy.ndarray`
 
-    :ivar signal: values of signal for the segment
-    :vartype signal: :class:`numpy.ndarray`
+    :ivar signal_ext: values of signal for the segment.
+    :vartype signal_ext: :class:`numpy.ndarray`
 
     :ivar residual: residue of fit for the segment
     :vartype residual: float
@@ -137,7 +136,7 @@ class TrendResult(object):
         self.start = change_point_ind[0]
         self.end = change_point_ind[-1]
         self.segment_trend = trend[self.start: self.end + 1]
-        self.signal = signal[self.start: self.end + 1]
+        self.signal_ext = signal[self.start: self.end + 1]
         self.slope = None
         self.intercept = None
         self.segment_mse = None
@@ -159,5 +158,6 @@ class TrendResult(object):
                 self.intercept = self.start
 
         if self.segment_mse is None and self.residual is None:
-            self.segment_mse = np.sum(np.square(self.signal) - np.square(self.segment_trend)) / len(self.segment_trend)
-            self.residual = np.sum(np.subtract(self.signal, self.segment_trend))
+            self.segment_mse = np.sum(np.square(self.signal_ext) - np.square(self.segment_trend)) / len(
+                self.segment_trend)
+            self.residual = np.sum(np.subtract(self.signal_ext, self.segment_trend))

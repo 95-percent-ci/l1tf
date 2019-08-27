@@ -42,7 +42,8 @@ if __name__ == '__main__':
         feas_tol = run_config["feasibility_tolerance"]
         refine = run_config["refine_required"]
         slope_tol = run_config["slope_tolerance"]
-        show_progress = run_config["show_progress"]
+        show_prog = run_config["show_progress"]
         LOGGER.info("Initialising l1 trend filter for %s", signal_name)
-        trend = l1.l1_trend(signal, lamda, show_progress, iter_max, abs_tol, rel_tol, feas_tol, refine)
+        LOGGER.info(show_prog)
+        trend = l1.l1_trend(signal, lamda, show_prog, iter_max, abs_tol, rel_tol, feas_tol, refine)
         LOGGER.info("Process ended successfully")
